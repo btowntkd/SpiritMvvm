@@ -125,6 +125,7 @@ namespace SpiritMVVM
             var dependencyNames = from attribute in propertyInfo
                                       .GetCustomAttributes(typeof(DependsOnAttribute), true)
                                       .Cast<DependsOnAttribute>()
+                                  where attribute.Property != propertyName //Ignore the original property, if it depends on itself
                                   select attribute.Property;
 
             //Return the matching PropertyInfo objects
