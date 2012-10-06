@@ -275,7 +275,7 @@ namespace SpiritMVVM.Test
         [TestMethod]
         public void GetAllDependencies_ReturnValue_DoesNotContainSelf()
         {
-            //Retrieve the list of all properties which are dependant on "MultiCircularBaseProperty,"
+            //Retrieve the list of all properties which are dependencies for "MultiCircularDependencyThree,"
             //either directly or indirectly.
             var results = DependsOnAttribute.GetAllDependencies(typeof(SimpleClassWithDependantProperties),
                 SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyThree);
