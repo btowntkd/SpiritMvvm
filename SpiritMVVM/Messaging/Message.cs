@@ -2,7 +2,7 @@
 namespace SpiritMVVM.Messaging
 {
     /// <summary>
-    /// Base class of decoupled messages using the <see cref="IMessenger"/> interface.
+    /// Base class for decoupled messages using the <see cref="IMessenger"/> interface.
     /// </summary>
     public class Message : IMessage
     {

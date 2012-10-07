@@ -7,6 +7,17 @@ namespace SpiritMVVM.Test.Messaging
     [TestClass]
     public class MessengerTest
     {
+        public class BasicMessage : Message
+        {
+            public string Text { get; private set; }
+
+            public BasicMessage(object sender, string text)
+                : base(sender)
+            {
+                Text = text;
+            }
+        }
+
         [TestMethod]
         public void Constructor_Default_Success()
         {
@@ -19,7 +30,7 @@ namespace SpiritMVVM.Test.Messaging
             try
             {
                 Messenger messenger = new Messenger();
-                messenger.Subscribe<int>(null, new Action<int>(x => { /* Do nothing */ }));
+                messenger.Subscribe<Message>(null, new Action<Message>(x => { /* Do nothing */ }));
             }
             catch (ArgumentNullException)
             {
