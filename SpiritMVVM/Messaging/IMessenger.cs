@@ -20,5 +20,22 @@ namespace SpiritMVVM.Messaging
         /// <param name="action">The message handler to execute whenever
         /// the appropriate message type is sent.</param>
         void Subscribe<TMessage>(Action<TMessage> action);
+
+        void Unsubscribe
+
+        /// <summary>
+        /// Broadcast the given <see cref="IMessage"/> to all registered listeners.
+        /// </summary>
+        /// <typeparam name="TMessage"></typeparam>
+        /// <param name="message"></param>
+        void Send<TMessage>(TMessage message) where TMessage : IMessage;
+
+        /// <summary>
+        /// Broadcase the given <see cref="IMessage"/> to all registered listeners asynchronously.
+        /// </summary>
+        /// <typeparam name="TMessage"></typeparam>
+        /// <param name="message"></param>
+        /// <returns></returns>
+        Task SendAsync<TMessage>(TMessage message) where TMessage : IMessage;
     }
 }
