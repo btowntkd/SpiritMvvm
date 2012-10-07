@@ -69,7 +69,7 @@ namespace SpiritMVVM.Test
         /// Ensures that the constructor completes successfully for any input.
         /// </summary>
         [TestMethod]
-        public void Constructor_Success()
+        public void Constructor_Default_Success()
         {
             DependsOnAttribute attribute = new DependsOnAttribute("RandomProp");
             Assert.IsNotNull(attribute);

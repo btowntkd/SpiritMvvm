@@ -54,6 +54,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="DependsOnAttributeTest.cs" />
+    <Compile Include="Messaging\MessageTest.cs" />
+    <Compile Include="Messaging\MessengerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AccessorTest.cs" />
   </ItemGroup>
@@ -63,6 +65,7 @@
       <Name>SpiritMVVM</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

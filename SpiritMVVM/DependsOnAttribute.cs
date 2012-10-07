@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Reflection;
 
 namespace SpiritMVVM
@@ -15,6 +14,12 @@ namespace SpiritMVVM
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = true, Inherited = true)]
     public class DependsOnAttribute : Attribute
     {
+        /// <summary>
+        /// String used to specify a "Wild Card" dependency.
+        /// Assigning the wild card as a dependency means that
+        /// the attributed property's value is dependant on all
+        /// other properties in the class.
+        /// </summary>
         public const string WildCard = "*";
 
         #region Constructor
