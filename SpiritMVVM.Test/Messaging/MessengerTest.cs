@@ -88,7 +88,7 @@ namespace SpiritMVVM.Test.Messaging
         }
 
         [TestMethod]
-        public void SubscribeAndSend_IgnoreDerivedTypes_DoesNotExecuteActionOnDerivedMessage()
+        public void SubscribeAndSend_IgnoredDerivedType_DoesNotExecuteAction()
         {
             bool actionExecuted = false;
             object token = new object();
@@ -103,7 +103,7 @@ namespace SpiritMVVM.Test.Messaging
         }
 
         [TestMethod]
-        public void SubscribeAndSend_AcceptDerivedTypes_ExecutesActionOnDerivedMessage()
+        public void SubscribeAndSend_AcceptedDerivedType_ExecutesAction()
         {
             bool actionExecuted = false;
             object token = new object();
@@ -116,5 +116,7 @@ namespace SpiritMVVM.Test.Messaging
 
             Assert.IsTrue(actionExecuted, "Subscriber did not receive message.");
         }
+
+
     }
 }
