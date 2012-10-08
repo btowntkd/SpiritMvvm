@@ -15,7 +15,7 @@ namespace SpiritMVVM.Messaging
         #region Private Fields
 
         private readonly object _subscriptionLock = new object();
-        private Dictionary<Type, List<IMessageSubscription>> _subscriptions;
+        private Dictionary<Type, List<IMessageSubscription>> _subscriptionsByType;
 
         #endregion
 
@@ -26,7 +26,7 @@ namespace SpiritMVVM.Messaging
         /// </summary>
         public Messenger()
         {
-            _subscriptions = new Dictionary<Type, List<IMessageSubscription>>();
+            _subscriptionsByType = new Dictionary<Type, List<IMessageSubscription>>();
         }
 
         #endregion
@@ -79,10 +79,10 @@ namespace SpiritMVVM.Messaging
                 Type messageType = typeof(TMessage);
 
                 List<IMessageSubscription> currentSubscriptions = null;
-                if (!_subscriptions.TryGetValue(messageType, out currentSubscriptions))
+                if (!_subscriptionsByType.TryGetValue(messageType, out currentSubscriptions))
                 {
                     currentSubscriptions = new List<IMessageSubscription>();
-                    _subscriptions[messageType] = currentSubscriptions;
+                    _subscriptionsByType[messageType] = currentSubscriptions;
                 }
 
                 currentSubscriptions.Add(new MessageSubscription<TMessage>(recipientToken, action, receiveDerivedMessages));
@@ -109,11 +109,11 @@ namespace SpiritMVVM.Messaging
                 Type messageType = typeof(TMessage);
 
                 List<IMessageSubscription> currentSubscriptions = null;
-                if (_subscriptions.TryGetValue(messageType, out currentSubscriptions))
+                if (_subscriptionsByType.TryGetValue(messageType, out currentSubscriptions))
                 {
-                    var toRemoveList = from sub in currentSubscriptions
-                                   where object.ReferenceEquals(sub.RecipientToken, recipientToken)
-                                   select sub;
+                    var toRemoveList = (from sub in currentSubscriptions
+                                       where object.ReferenceEquals(sub.RecipientToken, recipientToken)
+                                       select sub).ToList();
 
                     foreach (var sub in toRemoveList)
                     {
@@ -139,7 +139,7 @@ namespace SpiritMVVM.Messaging
             {
                 Type messageType = typeof(TMessage);
                 List<IMessageSubscription> subscriptionsToDeliver = new List<IMessageSubscription>();
-                foreach (var currentList in _subscriptions.Values)
+                foreach (var currentList in _subscriptionsByType.Values)
                 {
                     foreach (var currentSubscription in currentList)
                     {
@@ -182,11 +182,11 @@ namespace SpiritMVVM.Messaging
         {
             lock (_subscriptionLock)
             {
-                foreach (var subscriptionList in _subscriptions.Values)
+                foreach (var subscriptionList in _subscriptionsByType.Values)
                 {
-                    var toRemoveList = from sub in subscriptionList
+                    var toRemoveList = (from sub in subscriptionList
                                        where !sub.IsSubscriberAlive
-                                       select sub;
+                                       select sub).ToList();
 
                     foreach (var sub in toRemoveList)
                     {
