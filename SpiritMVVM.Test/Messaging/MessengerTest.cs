@@ -58,7 +58,7 @@ namespace SpiritMVVM.Test.Messaging
         }
 
         [TestMethod]
-        public void SubscribeAndSend_ExactType_ExecutesAction()
+        public void Send_WithMatchingMessageType_ExecutesAction()
         {
             bool actionExecuted = false;
             object token = new object();
@@ -73,7 +73,7 @@ namespace SpiritMVVM.Test.Messaging
         }
 
         [TestMethod]
-        public void SubscribeAndSend_UnrelatedType_DoesNotExecuteAction()
+        public void Send_WithUnmatchingMessageType_DoesNotExecuteAction()
         {
             bool actionExecuted = false;
             object token = new object();
@@ -88,7 +88,7 @@ namespace SpiritMVVM.Test.Messaging
         }
 
         [TestMethod]
-        public void SubscribeAndSend_IgnoredDerivedType_DoesNotExecuteAction()
+        public void Send_WithDerivedMessage_WhenSubscriberIgnoresDerivedMessages_DoesNotExecuteAction()
         {
             bool actionExecuted = false;
             object token = new object();
@@ -103,7 +103,7 @@ namespace SpiritMVVM.Test.Messaging
         }
 
         [TestMethod]
-        public void SubscribeAndSend_AcceptedDerivedType_ExecutesAction()
+        public void Send_WithDerivedMessage_WhenSubscriberAcceptsDerivedMessages_ExecutesAction()
         {
             bool actionExecuted = false;
             object token = new object();
