@@ -30,7 +30,5 @@ namespace SpiritMVVM.Test.Messaging
 
             Assert.AreEqual(sender, msg.Sender);
         }
-
-
     }
 }

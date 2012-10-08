@@ -8,15 +8,11 @@ namespace SpiritMVVM.Test.Messaging
     public class MessengerTest
     {
         public class BasicMessage : Message
-        {
-            public string Text { get; private set; }
-
-            public BasicMessage(object sender, string text)
-                : base(sender)
-            {
-                Text = text;
-            }
-        }
+        { }
+        public class DerivedMessage : BasicMessage
+        { }
+        public class UnrelatedMessage : Message
+        { }
 
         [TestMethod]
         public void Constructor_Default_Success()
@@ -40,6 +36,85 @@ namespace SpiritMVVM.Test.Messaging
             {
                 Assert.Fail("Exception was not of the expected type.");
             }
+        }
+
+        [TestMethod]
+        public void Subscribe_NullAction_ThrowsException()
+        {
+            try
+            {
+                object token = new object();
+                Messenger messenger = new Messenger();
+                messenger.Subscribe<Message>(token, null);
+            }
+            catch (ArgumentNullException)
+            {
+                /* PASS */
+            }
+            catch (Exception)
+            {
+                Assert.Fail("Exception was not of the expected type.");
+            }
+        }
+
+        [TestMethod]
+        public void SubscribeAndSend_ExactType_ExecutesAction()
+        {
+            bool actionExecuted = false;
+            object token = new object();
+            Messenger messenger = new Messenger();
+            messenger.Subscribe<BasicMessage>(token, (msg) =>
+            {
+                actionExecuted = true;
+            });
+            messenger.Send(new BasicMessage());
+
+            Assert.IsTrue(actionExecuted, "Subscriber did not receive message.");
+        }
+
+        [TestMethod]
+        public void SubscribeAndSend_UnrelatedType_DoesNotExecuteAction()
+        {
+            bool actionExecuted = false;
+            object token = new object();
+            Messenger messenger = new Messenger();
+            messenger.Subscribe<BasicMessage>(token, (msg) =>
+            {
+                actionExecuted = true;
+            });
+            messenger.Send(new UnrelatedMessage());
+
+            Assert.IsFalse(actionExecuted, "Subscriber received message which was not expected.");
+        }
+
+        [TestMethod]
+        public void SubscribeAndSend_IgnoreDerivedTypes_DoesNotExecuteActionOnDerivedMessage()
+        {
+            bool actionExecuted = false;
+            object token = new object();
+            Messenger messenger = new Messenger();
+            messenger.Subscribe<BasicMessage>(token, false, (msg) =>
+            {
+                actionExecuted = true;
+            });
+            messenger.Send(new DerivedMessage());
+
+            Assert.IsFalse(actionExecuted, "Subscriber received message which was not expected.");
+        }
+
+        [TestMethod]
+        public void SubscribeAndSend_AcceptDerivedTypes_ExecutesActionOnDerivedMessage()
+        {
+            bool actionExecuted = false;
+            object token = new object();
+            Messenger messenger = new Messenger();
+            messenger.Subscribe<BasicMessage>(token, true, (msg) =>
+            {
+                actionExecuted = true;
+            });
+            messenger.Send(new DerivedMessage());
+
+            Assert.IsTrue(actionExecuted, "Subscriber did not receive message.");
         }
     }
 }
