@@ -58,6 +58,7 @@
     <Compile Include="Messaging\MessengerTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AccessorTest.cs" />
+    <Compile Include="PropertyNotifierTest.cs" />
     <Compile Include="RelayCommandTest.cs" />
   </ItemGroup>
   <ItemGroup>
