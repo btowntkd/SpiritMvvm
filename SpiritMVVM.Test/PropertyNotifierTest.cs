@@ -34,7 +34,7 @@ namespace SpiritMVVM.Test
 
         #endregion
 
-        #region Set (ref Argument) Tests
+        #region Set (with ref Argument) Tests
 
         [TestMethod]
         public void Set_WithRefArgument_Changed_ExecutesNotifier()

@@ -1,25 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpiritMVVM
 {
     /// <summary>
     /// Utility class used as a proxy when assigning values to properties,
-    /// in order to automatically raise property-change notification events.
+    /// in order to automatically raise property-changed notification events.
     /// </summary>
     public class PropertyNotifier
     {
         private Action<string> _propertyNotificationAction = null;
 
         /// <summary>
-        /// 
+        /// Creates a new <see cref="PropertyNotifier"/> using the given
+        /// <see cref="Action{T}"/> as a property notification delegate.
         /// </summary>
-        /// <param name="propertyChangedAction"></param>
+        /// <param name="propertyChangedAction">The delegate to execute
+        /// whenever any call to the SetProperty method results in a new
+        /// value being assigned to a property.</param>
         public PropertyNotifier(Action<string> propertyChangedAction)
         {
             if (propertyChangedAction == null)
@@ -29,13 +28,22 @@ namespace SpiritMVVM
         }
 
         /// <summary>
-        /// 
+        /// Compare the values of the given backingStore and newValue, assigning
+        /// newValue to the backingStore if they are different.  If a new value
+        /// was assigned, this method executes the Property-Change notification delegate.
+        /// If a new value was assigned an a callback was provided in the
+        /// onChangedCallback argument, the callback will be executed,
+        /// providing the old value and new values to the handler, respectively.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="backingStore"></param>
-        /// <param name="newValue"></param>
-        /// <param name="onChangedCallback"></param>
-        /// <param name="propertyName"></param>
+        /// <typeparam name="T">The type of the property being set.</typeparam>
+        /// <param name="backingStore">A reference to the backing store for the property.</param>
+        /// <param name="newValue">The new value to assign the property, if different.</param>
+        /// <param name="onChangedCallback">The callback to execute (aside from the property-
+        /// change notification delegate) if the new value is assigned, providing the
+        /// old value and new value as arguments, in that order.</param>
+        /// <param name="propertyName">The name of the property being changed.  Leave
+        /// this argument blank if called from within the property's "Set" method,
+        /// and the compiler will automatically pass the correct property name.</param>
         public void SetProperty<T>(ref T backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")
         {
             if (!EqualityComparer<T>.Default.Equals(backingStore, newValue))
@@ -54,13 +62,22 @@ namespace SpiritMVVM
         }
 
         /// <summary>
-        /// 
+        /// Compare the values of the given backingStore and newValue, assigning
+        /// newValue to the backingStore if they are different.  If a new value
+        /// was assigned, this method executes the Property-Change notification delegate.
+        /// If a new value was assigned an a callback was provided in the
+        /// onChangedCallback argument, the callback will be executed,
+        /// providing the old value and new values to the handler, respectively.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="backingStore"></param>
-        /// <param name="newValue"></param>
-        /// <param name="onChangedCallback"></param>
-        /// <param name="propertyName"></param>
+        /// <typeparam name="T">The type of the property being set.</typeparam>
+        /// <param name="backingStore">A set of Get/Set accessors for the property's backing store.</param>
+        /// <param name="newValue">The new value to assign the property, if different.</param>
+        /// <param name="onChangedCallback">The callback to execute (aside from the property-
+        /// change notification delegate) if the new value is assigned, providing the
+        /// old value and new value as arguments, in that order.</param>
+        /// <param name="propertyName">The name of the property being changed.  Leave
+        /// this argument blank if called from within the property's "Set" method,
+        /// and the compiler will automatically pass the correct property name.</param>
         public void SetProperty<T>(Accessor<T> backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")
         {
             if (!EqualityComparer<T>.Default.Equals(backingStore.Value, newValue))
@@ -79,9 +96,10 @@ namespace SpiritMVVM
         }
 
         /// <summary>
-        /// 
+        /// Manually raise the internally-stored Property-Change notification delegate.
         /// </summary>
-        /// <param name="propertyName"></param>
+        /// <param name="propertyName">The name of the property to provide
+        /// the notification delegate.</param>
         public void RaiseNotification(string propertyName)
         {
             var handler = _propertyNotificationAction;
