@@ -10,7 +10,7 @@ namespace SpiritMVVM
     /// </summary>
     public class PropertyNotifier
     {
-        private Action<string> _propertyNotificationAction = null;
+        private readonly Action<string> _propertyNotificationAction = null;
 
         /// <summary>
         /// Creates a new <see cref="PropertyNotifier"/> using the given

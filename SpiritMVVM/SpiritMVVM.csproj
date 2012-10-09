@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Compile Include="PropertyListener.cs" />
     <Compile Include="PropertyNotifier.cs" />
     <Compile Include="RelayCommand.Generic.cs" />
   </ItemGroup>
