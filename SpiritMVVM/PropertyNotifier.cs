@@ -8,7 +8,7 @@ namespace SpiritMVVM
     /// Utility class used as a proxy when assigning values to properties,
     /// in order to automatically raise property-changed notification events.
     /// </summary>
-    public class PropertyNotifier
+    public class PropertyNotifier : IPropertyNotifier
     {
         private readonly Action<string> _raisePropertyChangedAction = null;
         private readonly Action<string> _raisePropertyChangingAction = null;
@@ -46,9 +46,10 @@ namespace SpiritMVVM
         /// <param name="onChangedCallback">The callback to execute (aside from the property-
         /// change notification delegate) if the new value is assigned, providing the
         /// old value and new value as arguments, in that order.</param>
-        /// <param name="propertyName">The name of the property being changed.  Leave
-        /// this argument blank if called from within the property's "Set" method,
-        /// and the compiler will automatically pass the correct property name.</param>
+        /// <param name="propertyName">The name of the property being changed.  Defaults
+        /// to the name of the calling member.  Leave this argument blank if called 
+        /// from within the property's "Set" method, and the compiler will automatically
+        /// pass the correct property name.</param>
         public void SetProperty<T>(ref T backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")
         {
             if (!EqualityComparer<T>.Default.Equals(backingStore, newValue))
@@ -83,9 +84,10 @@ namespace SpiritMVVM
         /// <param name="onChangedCallback">The callback to execute (aside from the property-
         /// change notification delegate) if the new value is assigned, providing the
         /// old value and new value as arguments, in that order.</param>
-        /// <param name="propertyName">The name of the property being changed.  Leave
-        /// this argument blank if called from within the property's "Set" method,
-        /// and the compiler will automatically pass the correct property name.</param>
+        /// <param name="propertyName">The name of the property being changed.  Defaults
+        /// to the name of the calling member.  Leave this argument blank if called 
+        /// from within the property's "Set" method, and the compiler will automatically
+        /// pass the correct property name.</param>
         public void SetProperty<T>(Accessor<T> backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")
         {
             if (!EqualityComparer<T>.Default.Equals(backingStore.Value, newValue))
