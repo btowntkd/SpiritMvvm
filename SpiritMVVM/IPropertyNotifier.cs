@@ -11,7 +11,7 @@ namespace SpiritMVVM
     /// Common interface for proxy classes which assist in assigning new values
     /// to Properties, raising callback methods when the property's value changes.
     /// </summary>
-    interface IPropertyNotifier
+    public interface IPropertyNotifier
     {
         /// <summary>
         /// Compare the values of the given backingStore and newValue, assigning

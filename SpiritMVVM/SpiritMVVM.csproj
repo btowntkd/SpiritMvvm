@@ -40,6 +40,7 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
     <Compile Include="IPropertyListener.cs" />
     <Compile Include="IPropertyNotifier.cs" />
+    <Compile Include="ObservableObject.cs" />
     <Compile Include="PropertyListener.cs" />
     <Compile Include="PropertyNotifier.cs" />
     <Compile Include="RelayCommand.Generic.cs" />

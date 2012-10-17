@@ -10,7 +10,7 @@ namespace SpiritMVVM.Test
         #region Constructor Tests
 
         [TestMethod]
-        public void Constructor_NullAction_ThrowsException()
+        public void Constructor_NullPropertyChangedAction_ThrowsException()
         {
             try
             {
@@ -26,10 +26,18 @@ namespace SpiritMVVM.Test
             }
         }
 
+        ////Unit test removed because INotifyPropertyChanging doesn't exist in PCL yet.
+        //[TestMethod]
+        //public void Constructor_NullPropertyChangingAction_Success()
+        //{
+        //    PropertyNotifier notifier = new PropertyNotifier((s) => { /* Do nothing */ });
+        //}
+
         [TestMethod]
-        public void Constructor_ValidArgs_Success()
+        public void Constructor_AllValidArgs_Success()
         {
-            PropertyNotifier notifier = new PropertyNotifier((s) => { /* Do nothing */ });
+            Action<string> doNothingAction = new Action<string>((s) => { });
+            PropertyNotifier notifier = new PropertyNotifier(doNothingAction);
         }
 
         #endregion
@@ -37,23 +45,48 @@ namespace SpiritMVVM.Test
         #region Set (with ref Argument) Tests
 
         [TestMethod]
-        public void Set_WithRefArgument_Changed_ExecutesNotifier()
+        public void Set_WithRefArgument_Changed_ExecutesPropertyChangedAction_AfterChange()
         {
             bool notifierExecuted = false;
+            int backingStore = 0;
+            int newValue = 12;
+            int propertyChangedActionValue = 0;
             PropertyNotifier notifier = new PropertyNotifier((propName) =>
             {
+                propertyChangedActionValue = backingStore;
                 notifierExecuted = true;
             });
 
-            int backingStore = 0;
-            int newValue = 12;
             notifier.SetProperty(ref backingStore, newValue);
             
             Assert.IsTrue(notifierExecuted, "Expected notifier delegate to be executed.");
+            Assert.AreEqual(propertyChangedActionValue, newValue, "Expected PropertyChanged action to be executed after the value was changed.");
         }
 
+        ////Unit test removed because INotifyPropertyChanging doesn't exist in PCL yet.
+        //[TestMethod]
+        //public void Set_WithRefArgument_Changed_ExecutesPropertyChangingAction_BeforeChange()
+        //{
+        //    bool notifierExecuted = false;
+        //    int oldValue = 0;
+        //    int backingStore = oldValue;
+        //    int newValue = 12;
+        //    int propertyChangingActionValue = 0;
+        //    PropertyNotifier notifier = new PropertyNotifier((propName) => { /* Do nothing */ },
+        //        (propName) =>
+        //        {
+        //            propertyChangingActionValue = backingStore;
+        //            notifierExecuted = true;
+        //        });
+
+        //    notifier.SetProperty(ref backingStore, newValue);
+
+        //    Assert.IsTrue(notifierExecuted, "Expected notifier delegate to be executed.");
+        //    Assert.AreEqual(propertyChangingActionValue, oldValue, "Expected PropertyChanging action to be executed before the value was changed.");
+        //}
+
         [TestMethod]
-        public void Set_WithRefArgument_NotChanged_DoesNotExecuteNotifier()
+        public void Set_WithRefArgument_NotChanged_DoesNotExecutePropertyChangedAction()
         {
             bool notifierExecuted = false;
             PropertyNotifier notifier = new PropertyNotifier((propName) =>
@@ -65,11 +98,29 @@ namespace SpiritMVVM.Test
             int newValue = 0;
             notifier.SetProperty(ref backingStore, newValue);
 
-            Assert.IsFalse(notifierExecuted, "Did not expect notifier delegate to be executed.");
+            Assert.IsFalse(notifierExecuted, "Did not expect PropertyChanged action to be executed.");
         }
 
+        ////Unit test removed because INotifyPropertyChanging doesn't exist in PCL yet.
+        //[TestMethod]
+        //public void Set_WithRefArgument_NotChanged_DoesNotExecutePropertyChangingAction()
+        //{
+        //    bool notifierExecuted = false;
+        //    PropertyNotifier notifier = new PropertyNotifier((propName) => { },
+        //        (propName) =>
+        //        {
+        //            notifierExecuted = true;
+        //        });
+
+        //    int backingStore = 0;
+        //    int newValue = 0;
+        //    notifier.SetProperty(ref backingStore, newValue);
+
+        //    Assert.IsFalse(notifierExecuted, "Did not expect PropertyChanging action to be executed.");
+        //}
+
         [TestMethod]
-        public void Set_WithRefArgument_Changed_ProvidesCorrectPropertyNameToNotifier()
+        public void Set_WithRefArgument_Changed_ProvidesCorrectPropertyNameToPropertyChangedAction()
         {
             //Use a guid as a property name, to ensure randomness
             string expectedPropertyName = Guid.NewGuid().ToString();

@@ -10,7 +10,7 @@ namespace SpiritMVVM
     /// on a target object, and executes a given callback whenever the <see cref="INotifyPropertyChanged.PropertyChanged"/>
     /// event is raised for a specific, registered property name.
     /// </summary>
-    public class PropertyListener
+    public class PropertyListener : IPropertyListener
     {
         #region Private Fields
 

@@ -11,25 +11,20 @@ namespace SpiritMVVM
     public class PropertyNotifier : IPropertyNotifier
     {
         private readonly Action<string> _raisePropertyChangedAction = null;
-        private readonly Action<string> _raisePropertyChangingAction = null;
 
         /// <summary>
         /// Creates a new <see cref="PropertyNotifier"/> using the given
         /// <see cref="Action{T}"/> as a property notification delegate.
         /// </summary>
-        /// <param name="raisePropertyChangedAction">The delegate to execute
+        /// <param name="propertyChangedAction">The Action to execute
         /// whenever any call to the SetProperty method results in a new
         /// value being assigned to a property.</param>
-        /// <param name="raisePropertyChangingAction">The (optional) delegate
-        /// to execute just before changing a property's value.</param>
-        public PropertyNotifier(Action<string> raisePropertyChangedAction,
-            Action<string> raisePropertyChangingAction = null)
+        public PropertyNotifier(Action<string> propertyChangedAction)
         {
-            if (raisePropertyChangedAction == null)
+            if (propertyChangedAction == null)
                 throw new ArgumentNullException("raisePropertyChangedAction");
 
-            _raisePropertyChangedAction = raisePropertyChangedAction;
-            _raisePropertyChangingAction = raisePropertyChangingAction;
+            _raisePropertyChangedAction = propertyChangedAction;
         }
 
         /// <summary>
@@ -54,9 +49,6 @@ namespace SpiritMVVM
         {
             if (!EqualityComparer<T>.Default.Equals(backingStore, newValue))
             {
-                //Raise the "PropertyChanging" event
-                RaisePropertyChanging(propertyName);
-
                 //Store the old value for the callback
                 T oldValue = backingStore;
                 backingStore = newValue;
@@ -92,9 +84,6 @@ namespace SpiritMVVM
         {
             if (!EqualityComparer<T>.Default.Equals(backingStore.Value, newValue))
             {
-                //Raise the "PropertyChanging" event
-                RaisePropertyChanging(propertyName);
-
                 //Store the old value for the callback
                 T oldValue = backingStore.Value;
                 backingStore.Value = newValue;
@@ -116,20 +105,6 @@ namespace SpiritMVVM
         public void RaisePropertyChanged(string propertyName)
         {
             var handler = _raisePropertyChangedAction;
-            if (handler != null)
-            {
-                handler(propertyName);
-            }
-        }
-
-        /// <summary>
-        /// Manually raise the internally-stored PropertyChanging notification delegate.
-        /// </summary>
-        /// <param name="propertyName">The name of the property to provide
-        /// the notification delegate.</param>
-        public void RaisePropertyChanging(string propertyName)
-        {
-            var handler = _raisePropertyChangingAction;
             if (handler != null)
             {
                 handler(propertyName);
