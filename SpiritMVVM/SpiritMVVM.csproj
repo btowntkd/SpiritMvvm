@@ -40,10 +40,12 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
     <Compile Include="IPropertyListener.cs" />
     <Compile Include="IPropertyNotifier.cs" />
+    <Compile Include="IViewModel.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PropertyListener.cs" />
     <Compile Include="PropertyNotifier.cs" />
     <Compile Include="RelayCommand.Generic.cs" />
+    <Compile Include="ViewModels\SelectionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Accessor.cs" />

@@ -11,12 +11,12 @@ namespace SpiritMVVM.Test
         {
             public void SetPropertyHelper(IPropertyNotifier helper)
             {
-                PropertyHelper = helper;
+                PropertyNotifier = helper;
             }
 
             public IPropertyNotifier GetPropertyHelper()
             {
-                return PropertyHelper;
+                return PropertyNotifier;
             }
 
             private int _testPropertyWithRef = 0;
@@ -29,7 +29,7 @@ namespace SpiritMVVM.Test
         }
 
         [TestMethod]
-        public void SetPropertyHelper_NullValue_ThrowsException()
+        public void SetPropertyNotifier_NullValue_ThrowsException()
         {
             try
             {
@@ -48,7 +48,7 @@ namespace SpiritMVVM.Test
         }
 
         [TestMethod]
-        public void Set_CallsPropertyHelper()
+        public void Set_CallsPropertyNotifier()
         {
             Mock<IPropertyNotifier> mockNotifier = new Mock<IPropertyNotifier>();
 

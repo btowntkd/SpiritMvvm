@@ -26,7 +26,11 @@ namespace SpiritMVVM
         /// </summary>
         public ObservableObject()
         {
-            PropertyHelper = new PropertyNotifier((propName) => RaisePropertyChanged(propName));
+            PropertyNotifier = new PropertyNotifier((propName) => 
+            {
+                RaisePropertyChanged(propName);
+                RaisePropertyChangedDependants(propName);
+            });
         }
 
         #endregion
@@ -38,7 +42,7 @@ namespace SpiritMVVM
         /// which is used for assisting with setting property values via the 
         /// ObservableObject.Set methods.
         /// </summary>
-        protected IPropertyNotifier PropertyHelper
+        protected IPropertyNotifier PropertyNotifier
         {
             get { return _propertyNotifier; }
             set
@@ -67,7 +71,7 @@ namespace SpiritMVVM
         /// <param name="propertyName">The name of the property being set.</param>
         protected void Set<T>(ref T backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")
         {
-            PropertyHelper.SetProperty(ref backingStore, newValue, onChangedCallback, propertyName);
+            PropertyNotifier.SetProperty(ref backingStore, newValue, onChangedCallback, propertyName);
         }
 
         /// <summary>
@@ -83,7 +87,7 @@ namespace SpiritMVVM
         /// <param name="propertyName">The name of the property being set.</param>
         protected void Set<T>(Accessor<T> backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")
         {
-            PropertyHelper.SetProperty(backingStore, newValue, onChangedCallback, propertyName);
+            PropertyNotifier.SetProperty(backingStore, newValue, onChangedCallback, propertyName);
         }
 
         #endregion
@@ -105,6 +109,24 @@ namespace SpiritMVVM
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        /// <summary>
+        /// Raises the "PropertyChanged" event a given property's dependants.
+        /// The event is not raised for the given property, itself.
+        /// </summary>
+        /// <param name="propertyName">The name of the property whose dependants
+        /// should be raised.</param>
+        /// <remarks>Dependant properties are any properties marked with the 
+        /// <see cref="DependsOnAttribute"/> with the given property named as
+        /// the dependency.</remarks>
+        protected virtual void RaisePropertyChangedDependants(string propertyName)
+        {
+            var dependants = DependsOnAttribute.GetAllDependants(this.GetType(), propertyName);
+            foreach (var dependant in dependants)
+            {
+                RaisePropertyChanged(dependant.Name);
             }
         }
 
