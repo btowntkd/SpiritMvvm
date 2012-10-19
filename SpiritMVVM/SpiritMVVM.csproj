@@ -40,7 +40,8 @@
     <!-- A reference to the entire .NET Framework is automatically included -->
     <Compile Include="IPropertyListener.cs" />
     <Compile Include="IPropertyNotifier.cs" />
-    <Compile Include="IViewModel.cs" />
+    <Compile Include="Utils\StringWrapper.cs" />
+    <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PropertyListener.cs" />
     <Compile Include="PropertyNotifier.cs" />
@@ -48,7 +49,7 @@
     <Compile Include="ViewModels\SelectionViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Accessor.cs" />
+    <Compile Include="Utils\Accessor.cs" />
     <Compile Include="DependsOnAttribute.cs" />
     <Compile Include="IRaiseCanExecuteChanged.cs" />
     <Compile Include="Messaging\Message.cs" />

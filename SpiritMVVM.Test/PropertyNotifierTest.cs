@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SpiritMVVM.Utils;
 
 namespace SpiritMVVM.Test
 {

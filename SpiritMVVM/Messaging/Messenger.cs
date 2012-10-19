@@ -135,26 +135,10 @@ namespace SpiritMVVM.Messaging
             if (message == null)
                 throw new ArgumentNullException("message");
 
-            lock (_subscriptionLock)
+            var subscriptionsToDeliver = GetSubscriptionsForMessage(message);
+            foreach (var sub in subscriptionsToDeliver)
             {
-                Type messageType = typeof(TMessage);
-                List<IMessageSubscription> subscriptionsToDeliver = new List<IMessageSubscription>();
-                foreach (var currentList in _subscriptionsByType.Values)
-                {
-                    foreach (var currentSubscription in currentList)
-                    {
-                        if (currentSubscription.IsSubscriberAlive
-                            && currentSubscription.IsCompatibleMessage(message))
-                        {
-                            subscriptionsToDeliver.Add(currentSubscription);
-                        }
-                    }
-                }
-
-                foreach (var sub in subscriptionsToDeliver)
-                {
-                    sub.DeliverMessage(message);
-                }
+                sub.DeliverMessage(message);
             }
             CleanupSubscriptions();
         }
@@ -174,6 +158,31 @@ namespace SpiritMVVM.Messaging
         #endregion
 
         #region Protected Methods
+
+        /// <summary>
+        /// Collect all subscriptions relevant to the given message,
+        /// accounting for subscribers who wish to receive subtypes.
+        /// </summary>
+        /// <param name="message">The message for which to collect subscriptions.</param>
+        /// <returns>Returns the list of all subscriptions for the given message type.</returns>
+        private IEnumerable<IMessageSubscription> GetSubscriptionsForMessage<TMessage>(TMessage message)
+            where TMessage : IMessage
+        {
+            if (message == null)
+                throw new ArgumentNullException("message");
+
+            Type messageType = message.GetType();
+            List<IMessageSubscription> subscriptions;
+            lock (_subscriptionLock)
+            {
+                subscriptions = (from subscriptionList in _subscriptionsByType.Values
+                                 from subscription in subscriptionList
+                                 where (subscription.IsSubscriberAlive
+                                    && subscription.IsCompatibleMessage(message))
+                                 select subscription).ToList();
+            }
+            return subscriptions;
+        }
 
         /// <summary>
         /// Sweep through the current list of all subscriptions and remove any whose RecipientToken is expired.

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SpiritMVVM
+namespace SpiritMVVM.Utils
 {
     /// <summary>
     /// Contains Getter and Setter methods for an externally-referenced value.

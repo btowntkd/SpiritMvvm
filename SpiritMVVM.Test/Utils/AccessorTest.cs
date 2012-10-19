@@ -1,7 +1,8 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using SpiritMVVM.Utils;
+using System;
 
-namespace SpiritMVVM.Test
+namespace SpiritMVVM.Test.Utils
 {
     [TestClass]
     public class AccessorTest
