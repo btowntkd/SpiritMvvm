@@ -36,7 +36,7 @@ namespace SpiritMVVM
         /// <summary>
         /// Get or Set the internally-stored <see cref="IPropertyNotifier"/> object
         /// which is used for assisting with setting property values via the 
-        /// <see cref="ObservableObject.Set{T}"/> methods.
+        /// ObservableObject.Set methods.
         /// </summary>
         protected IPropertyNotifier PropertyHelper
         {
@@ -68,6 +68,22 @@ namespace SpiritMVVM
         protected void Set<T>(ref T backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")
         {
             PropertyHelper.SetProperty(ref backingStore, newValue, onChangedCallback, propertyName);
+        }
+
+        /// <summary>
+        /// Assign the given value to the ref backing store field.  If the value changed,
+        /// the method will raise the <see cref="ObservableObject.PropertyChanged"/> event,
+        /// and will execute the optional provided callback - passing along the old and new values,
+        /// respectively.
+        /// </summary>
+        /// <typeparam name="T">The type of the value being set.</typeparam>
+        /// <param name="backingStore">The backing field for the property.</param>
+        /// <param name="newValue">The new value to assign.</param>
+        /// <param name="onChangedCallback">The optional callback to execute if the value changed.</param>
+        /// <param name="propertyName">The name of the property being set.</param>
+        protected void Set<T>(Accessor<T> backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")
+        {
+            PropertyHelper.SetProperty(backingStore, newValue, onChangedCallback, propertyName);
         }
 
         #endregion
