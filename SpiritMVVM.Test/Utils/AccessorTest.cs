@@ -11,7 +11,7 @@ namespace SpiritMVVM.Test.Utils
         /// Ensures that a constructor called with a null Getter will throw an <see cref="ArgumentNullException"/>.
         /// </summary>
         [TestMethod]
-        public void Constructor_GetterIsNull_ThrowsException()
+        public void Constructor_GetterIsNull_ThrowsArgumentNullException()
         {
             try
             {
@@ -33,7 +33,7 @@ namespace SpiritMVVM.Test.Utils
         /// Ensures that a constructor called with a null Setter will throw an <see cref="ArgumentNullException"/>.
         /// </summary>
         [TestMethod]
-        public void Constructor_SetterIsNull_ThrowsException()
+        public void Constructor_SetterIsNull_ThrowsArgumentNullException()
         {
             try
             {

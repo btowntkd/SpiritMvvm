@@ -7,7 +7,7 @@ namespace SpiritMVVM.Test
     public class RelayCommandTest
     {
         [TestMethod]
-        public void Constructor_NullAction_ThrowsException()
+        public void Constructor_NullAction_ThrowsArgumentNullException()
         {
             try
             {

@@ -19,6 +19,34 @@ namespace SpiritMVVM.Messaging
 
         #endregion
 
+        #region Static Default
+
+        private static object _creationLock = new object();
+        private static IMessenger _default;
+        
+        /// <summary>
+        /// Get a default instance of the <see cref="Messenger"/> class.
+        /// </summary>
+        public static IMessenger Default
+        {
+            get
+            {
+                if (_default == null)
+                {
+                    lock (_creationLock)
+                    {
+                        if (_default == null)
+                        {
+                            _default = new Messenger();
+                        }
+                    }
+                }
+                return _default;
+            }
+        }
+
+        #endregion
+
         #region Constructors
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace SpiritMVVM.Test
         #region Constructor Tests
 
         [TestMethod]
-        public void Constructor_NullPropertyChangedAction_ThrowsException()
+        public void Constructor_NullPropertyChangedAction_ThrowsArgumentNullException()
         {
             try
             {

@@ -29,7 +29,7 @@ namespace SpiritMVVM.Test
         }
 
         [TestMethod]
-        public void SetPropertyNotifier_NullValue_ThrowsException()
+        public void SetPropertyNotifier_NullValue_ThrowsArgumentNullException()
         {
             try
             {

@@ -46,7 +46,7 @@ namespace SpiritMVVM.Test.Messaging
         /// Ensures that Subscribe will not accept a null "Token" argument.
         /// </summary>
         [TestMethod]
-        public void Subscribe_NullToken_ThrowsException()
+        public void Subscribe_NullToken_ThrowsArgumentNullException()
         {          
             try
             {
@@ -67,7 +67,7 @@ namespace SpiritMVVM.Test.Messaging
         /// Ensures that Subscribe will not accept a null "Action" argument.
         /// </summary>
         [TestMethod]
-        public void Subscribe_NullAction_ThrowsException()
+        public void Subscribe_NullAction_ThrowsArgumentNullException()
         {
             try
             {
@@ -264,6 +264,15 @@ namespace SpiritMVVM.Test.Messaging
 
             long memDifference = afterMemory - beforeMemory;
             Assert.IsTrue(memDifference < 10000, "Possible memory leak in Messenger");
+        }
+
+        /// <summary>
+        /// Ensures that the default, static instance is not null.
+        /// </summary>
+        [TestMethod]
+        public void Default_Instance_IsNotNull()
+        {
+            Assert.IsNotNull(Messenger.Default, "Default instance should not be null");
         }
     }
 }

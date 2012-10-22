@@ -60,7 +60,7 @@ namespace SpiritMVVM.Utils
             if (toStringMethod == null)
                 throw new ArgumentNullException("toStringMethod");
             if (itemAccessors == null)
-                throw new ArgumentNullException("itemAccessors");
+                throw new ArgumentNullException("itemAccessors", "Get and Set accessor methods are required");
 
             Accessor = itemAccessors;
             ParseStringMethod = parseMethod;
@@ -141,7 +141,7 @@ namespace SpiritMVVM.Utils
         /// </summary>
         public void ResetString()
         {
-            StringValue = ToStringMethod(Value);
+            _stringValue = ToStringMethod(Value);
         }
 
         #endregion

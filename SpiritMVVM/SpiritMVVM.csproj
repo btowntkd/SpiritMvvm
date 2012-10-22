@@ -46,7 +46,10 @@
     <Compile Include="PropertyListener.cs" />
     <Compile Include="PropertyNotifier.cs" />
     <Compile Include="RelayCommand.Generic.cs" />
+    <Compile Include="ViewModels\IViewModel.Generic.cs" />
     <Compile Include="ViewModels\SelectionViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelBase.cs" />
+    <Compile Include="ViewModels\ViewModelBase.Generic.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utils\Accessor.cs" />

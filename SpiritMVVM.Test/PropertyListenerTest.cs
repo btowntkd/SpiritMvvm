@@ -28,7 +28,7 @@ namespace SpiritMVVM.Test
         }
 
         [TestMethod]
-        public void Constructor_NullParent_ThrowsException()
+        public void Constructor_NullParent_ThrowsArgumentNullException()
         {
             try
             {
