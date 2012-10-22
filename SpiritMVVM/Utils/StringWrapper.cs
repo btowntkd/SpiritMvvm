@@ -142,6 +142,7 @@ namespace SpiritMVVM.Utils
         public void ResetString()
         {
             _stringValue = ToStringMethod(Value);
+            IsValid = true;
         }
 
         #endregion
