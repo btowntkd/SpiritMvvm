@@ -65,6 +65,7 @@ namespace SpiritMVVM.Utils
             Accessor = itemAccessors;
             ParseStringMethod = parseMethod;
             ToStringMethod = toStringMethod;
+            ResetString();
         }
 
         #endregion
