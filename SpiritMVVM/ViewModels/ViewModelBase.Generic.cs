@@ -1,14 +1,21 @@
-﻿
+﻿using SpiritMVVM.Messaging;
+
 namespace SpiritMVVM.ViewModels
 {
     /// <summary>
-    /// A base implementation of the <see cref="IViewModel{T}"/> interface,
-    /// providing <see cref="OnModelChanged"/> method to override,
-    /// which executes any time the <see cref="Model"/> property changes.
+    /// A base implementation of the <see cref="IViewModel{T}"/> interface.
     /// </summary>
+    /// <remarks>
+    /// The <see cref="ViewModelBase{T}"/> class provides an <see cref="OnModelChanged"/>
+    /// method to override, which executes any time the <see cref="Model"/> property changes.
+    /// It also provides an <see cref="ViewModelBase.OnMessengerChanged"/> method to override,
+    /// allowing users to unsubscribe from the old <see cref="IMessenger"/> instance,
+    /// and subscribe to the new <see cref="IMessenger"/> instance.
+    /// </remarks>
     /// <typeparam name="TModel">The type of the underlying ViewModel.</typeparam>
-    public class ViewModelBase<TModel> : ViewModelBase, IViewModel<TModel>
+    public abstract class ViewModelBase<TModel> : ViewModelBase, IViewModel<TModel>
     {
+
         private TModel _model;
 
         /// <summary>
@@ -18,6 +25,57 @@ namespace SpiritMVVM.ViewModels
         {
             get { return _model; }
             set { Set(ref _model, value, (x, y) => OnModelChanged(x, y)); }
+        }
+
+        /// <summary>
+        /// Default constructor.
+        /// </summary>
+        public ViewModelBase()
+            : base()
+        {
+            Model = default(TModel);
+        }
+
+        /// <summary>
+        /// Constructor which specifies the <see cref="IMessenger"/> to assign the
+        /// <see cref="ViewModelBase.Messenger"/> property.
+        /// </summary>
+        /// <param name="messenger">The messenger to use when broadcasting messages.</param>
+        public ViewModelBase(IMessenger messenger)
+            : base(messenger)
+        {
+            Model = default(TModel);
+        }
+
+        /// <summary>
+        /// Constructor which specifies the initial value to 
+        /// assign the <see cref="ViewModelBase{T}.Model"/> property.
+        /// </summary>
+        /// <param name="model">The model to assign.</param>
+        public ViewModelBase(TModel model)
+            : base()
+        {
+            // Assign the value directly to the backing store,
+            // because we do not want to invoke OnModelChanged
+            // when assigning the default value.
+            _model = model;
+        }
+
+        /// <summary>
+        /// Constructor which specifies the the initial value to 
+        /// assign the <see cref="ViewModelBase{T}.Model"/> property,
+        /// and the <see cref="IMessenger"/> instance to assign the
+        /// <see cref="ViewModelBase.Messenger"/> property.
+        /// </summary>
+        /// <param name="model">The model to assign.</param>
+        /// <param name="messenger">The messenger to use when broadcasting messages.</param>
+        public ViewModelBase(TModel model, IMessenger messenger)
+            : base(messenger)
+        {
+            // Assign the value directly to the backing store,
+            // because we do not want to invoke OnModelChanged
+            // when assigning the default value.
+            _model = model;
         }
 
         /// <summary>

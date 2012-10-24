@@ -39,8 +39,8 @@ namespace SpiritMVVM
         #region Protected Properties
 
         /// <summary>
-        /// Get or Set the internally-stored <see cref="IPropertyNotifier"/> object
-        /// which is used for assisting with setting property values via the 
+        /// Get or Set the internally-used <see cref="IPropertyNotifier"/> object.
+        /// This object is used when setting property values via the 
         /// ObservableObject.Set methods.
         /// </summary>
         protected IPropertyNotifier PropertyNotifier

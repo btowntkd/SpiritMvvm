@@ -145,5 +145,7 @@ namespace SpiritMVVM.Test.Utils
         }
 
         #endregion
+
+        //TODO: add more tests
     }
 }
