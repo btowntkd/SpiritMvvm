@@ -4,6 +4,9 @@ using SpiritMVVM.Utils;
 
 namespace SpiritMVVM.Test.Utils
 {
+    /// <summary>
+    /// Unit tests for the <see cref="StringWrapper{T}"/> class.
+    /// </summary>
     [TestClass]
     public class StringWrapperTest
     {
@@ -12,6 +15,10 @@ namespace SpiritMVVM.Test.Utils
 
         #region Constructor Tests
 
+        /// <summary>
+        /// Ensures that the constructor will throw an <see cref="ArgumentNullException"/>
+        /// if provided with a null Getter method.
+        /// </summary>
         [TestMethod]
         public void Constructor_NullGetter_ThrowsArgumentNullException()
         {
@@ -35,6 +42,10 @@ namespace SpiritMVVM.Test.Utils
             }
         }
 
+        /// <summary>
+        /// Ensures that the constructor will throw an <see cref="ArgumentNullException"/>
+        /// if provided with a null Setter method.
+        /// </summary>
         [TestMethod]
         public void Constructor_NullSetter_ThrowsArgumentNullException()
         {
@@ -58,6 +69,10 @@ namespace SpiritMVVM.Test.Utils
             }
         }
 
+        /// <summary>
+        /// Ensures that the constructor will throw an <see cref="ArgumentNullException"/>
+        /// if provided with a null Parse method.
+        /// </summary>
         [TestMethod]
         public void Constructor_NullParseMethod_ThrowsArgumentNullException()
         {
@@ -81,6 +96,10 @@ namespace SpiritMVVM.Test.Utils
             }
         }
 
+        /// <summary>
+        /// Ensures that the constructor will throw an <see cref="ArgumentNullException"/>
+        /// if provided with a null ToString method.
+        /// </summary>
         [TestMethod]
         public void Constructor_NullToStringMethod_ThrowsArgumentNullException()
         {
@@ -104,6 +123,9 @@ namespace SpiritMVVM.Test.Utils
             }
         }
 
+        /// <summary>
+        /// Ensures the constructor is successful when provided with valid parameters.
+        /// </summary>
         [TestMethod]
         public void Constructor_ValidArgs_Success()
         {
@@ -119,6 +141,9 @@ namespace SpiritMVVM.Test.Utils
 
         #region Get/Set Value Tests
 
+        /// <summary>
+        /// Ensures the Value property returns the value directly from the "Get" delegate.
+        /// </summary>
         [TestMethod]
         public void GetValue_ReturnsValueFromGetDelegate()
         {
@@ -134,6 +159,9 @@ namespace SpiritMVVM.Test.Utils
             Assert.AreEqual(backingStore, returnedValue, "Wrapper did not return the value from the Get accessor");
         }
 
+        /// <summary>
+        /// Ensures the Value property assigns the value directly to the "Set" delegate.
+        /// </summary>
         [TestMethod]
         public void SetValue_PassesValueToSetDelegate()
         {
@@ -154,6 +182,10 @@ namespace SpiritMVVM.Test.Utils
 
         #region Get/Set StringValue Tests
 
+        /// <summary>
+        /// Ensures the StringValue property returns the initial value of the ToString delegate
+        /// in its initial state.
+        /// </summary>
         [TestMethod]
         public void GetStringValue_DefaultStringValueIsInitialValueString()
         {
@@ -169,6 +201,9 @@ namespace SpiritMVVM.Test.Utils
             Assert.AreEqual(initialValue, "0", "Expected default StringValue to be equal to the Value string.");
         }
 
+        /// <summary>
+        /// Ensures the StringValue property returns the value which is earlier assigned to it.
+        /// </summary>
         [TestMethod]
         public void GetSetStringValue_WithInvalidString_AssignsAndReturnsStringValue()
         {
@@ -187,6 +222,9 @@ namespace SpiritMVVM.Test.Utils
             
         }
 
+        /// <summary>
+        /// Ensures the StringValue property returns the value which is earlier assigned to it.
+        /// </summary>
         [TestMethod]
         public void GetSetStringValue_WithValidString_AssignsAndReturnsStringValue()
         {
@@ -204,6 +242,10 @@ namespace SpiritMVVM.Test.Utils
             Assert.AreEqual(expectedValue, actualValue, "Expected and Actual values should have been equal");
         }
 
+        /// <summary>
+        /// Ensures the StringValue property does not effect the Value property 
+        /// when assigned an invalid/unparseable string.
+        /// </summary>
         [TestMethod]
         public void SetStringValue_WithInvalidString_DoesNotChangeValue()
         {
@@ -222,6 +264,10 @@ namespace SpiritMVVM.Test.Utils
             Assert.AreEqual(beforeValue, afterValue, "Before/After values should not have changed.");
         }
 
+        /// <summary>
+        /// Ensures the StringValue property directly assigns the Value property 
+        /// when assigned a valid/parseable string.
+        /// </summary>
         [TestMethod]
         public void SetStringValue_WithValidString_ChangesValue()
         {
@@ -244,6 +290,9 @@ namespace SpiritMVVM.Test.Utils
 
         #region ResetString Tests
 
+        /// <summary>
+        /// Ensures that the ResetString method calls the ToString delegate provided in the constructor.
+        /// </summary>
         [TestMethod]
         public void ResetString_CallsToStringDelegate()
         {
@@ -268,6 +317,9 @@ namespace SpiritMVVM.Test.Utils
 
         #region IsValid Tests
 
+        /// <summary>
+        /// Ensures IsValid is set to true in its initial state.
+        /// </summary>
         [TestMethod]
         public void IsValid_InitialStateIsTrue()
         {
@@ -281,6 +333,9 @@ namespace SpiritMVVM.Test.Utils
             Assert.IsTrue(wrapper.IsValid, "Expected IsValid to be true in initial state.");
         }
 
+        /// <summary>
+        /// Ensures IsValid is set to false, after assinging an invalid/unparseable string to the StringValue property.
+        /// </summary>
         [TestMethod]
         public void IsValid_AfterAssigningInvalidString_IsFalse()
         {
@@ -295,6 +350,9 @@ namespace SpiritMVVM.Test.Utils
             Assert.IsFalse(wrapper.IsValid, "Expected IsValid to be false when assigning an invalid string.");
         }
 
+        /// <summary>
+        /// Ensures IsValid is reset to true, after assinging a valid/parseable string to the StringValue property.
+        /// </summary>
         [TestMethod]
         public void IsValid_AfterAssigningValidString_IsTrue()
         {
@@ -311,6 +369,9 @@ namespace SpiritMVVM.Test.Utils
             Assert.IsTrue(wrapper.IsValid, "Expected IsValid to be true after assigning a valid string.");
         }
 
+        /// <summary>
+        /// Ensures IsValid is reset to true, after the ResetString method is executed.
+        /// </summary>
         [TestMethod]
         public void IsValid_AfterCallingResetString_IsTrue()
         {

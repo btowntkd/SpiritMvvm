@@ -4,6 +4,9 @@ using System;
 
 namespace SpiritMVVM.Test.Utils
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Accessor{T}"/> class.
+    /// </summary>
     [TestClass]
     public class AccessorTest
     {

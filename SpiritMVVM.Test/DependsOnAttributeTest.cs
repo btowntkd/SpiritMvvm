@@ -4,15 +4,18 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SpiritMVVM.Test
 {
+    /// <summary>
+    /// Unit tests for the <see cref="DependsOnAttribute"/> class.
+    /// </summary>
     [TestClass]
     public class DependsOnAttributeTest
     {
         /// <summary>
         /// Internal testing class which contains many property dependencies mapped;
-        /// some are simple dependancy mappings, and some contain complex multiple & circular
+        /// some are simple dependancy mappings, and some contain complex multiple and circular
         /// dependancies.
         /// </summary>
-        public class SimpleClassWithDependantProperties
+        internal class SimpleClassWithDependantProperties
         {
             /// <summary>
             /// Contains the list of const property names in string form.
@@ -77,6 +80,10 @@ namespace SpiritMVVM.Test
 
         #region GetDirectDependants
 
+        /// <summary>
+        /// Ensures that the <see cref="DependsOnAttribute.GetDirectDependants"/> method
+        /// returns all directly-dependant methods.
+        /// </summary>
         [TestMethod]
         public void GetDirectDependants_ReturnValue_ContainsOnlyDirectlyDependantProperties()
         {
@@ -92,6 +99,10 @@ namespace SpiritMVVM.Test
             Assert.IsTrue(results.Count() == 1, "Received more properties than were expected.");
         }
 
+        /// <summary>
+        /// Ensures that the <see cref="DependsOnAttribute.GetDirectDependants"/> method
+        /// does not contain the object which was provided as the original parameter.
+        /// </summary>
         [TestMethod]
         public void GetDirectDependants_ReturnValue_DoesNotContainSelf()
         {

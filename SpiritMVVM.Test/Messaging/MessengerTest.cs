@@ -5,28 +5,39 @@ using SpiritMVVM.Messaging;
 
 namespace SpiritMVVM.Test.Messaging
 {
+    /// <summary>
+    /// Unit tests for the <see cref="Messenger"/> class.
+    /// </summary>
     [TestClass]
     public class MessengerTest
     {
-        public class BasicMessage : Message
+        internal class BasicMessage : Message
         { }
-        public class DerivedMessage : BasicMessage
+        internal class DerivedMessage : BasicMessage
         { }
-        public class UnrelatedMessage : Message
+        internal class UnrelatedMessage : Message
         { }
-        public class LargeToken
+        internal class LargeToken
         {
             private readonly byte[] memoryGuzzler = new byte[100000];
         }
 
         static readonly object TestLock = new object();
 
+        /// <summary>
+        /// Sets up each unit test and ensures that only one will
+        /// execute at a time.
+        /// </summary>
         [TestInitialize]
         public void TestStart()
         {
             Monitor.Enter(TestLock);
         }
 
+        /// <summary>
+        /// Tears down a unit test, releasing the exclusive lock
+        /// and allowing the next unit test to execute.
+        /// </summary>
         [TestCleanup]
         public void TestEnd()
         {

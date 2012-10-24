@@ -4,10 +4,13 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SpiritMVVM.Test
 {
+    /// <summary>
+    /// Unit tests for the <see cref="PropertyListener"/> class.
+    /// </summary>
     [TestClass]
     public class PropertyListenerTest
     {
-        public class SimpleViewModel : INotifyPropertyChanged
+        internal class SimpleViewModel : INotifyPropertyChanged
         {
             public event PropertyChangedEventHandler PropertyChanged = null;
 
@@ -27,6 +30,10 @@ namespace SpiritMVVM.Test
             }
         }
 
+        /// <summary>
+        /// Ensures the constructor will throw an <see cref="ArgumentNullException"/> when
+        /// provided with a null parent parameter.
+        /// </summary>
         [TestMethod]
         public void Constructor_NullParent_ThrowsArgumentNullException()
         {
@@ -44,6 +51,9 @@ namespace SpiritMVVM.Test
             }
         }
 
+        /// <summary>
+        /// Ensures the constructor is successful when provided with valid parameters.
+        /// </summary>
         [TestMethod]
         public void Constructor_ValidArgs_Success()
         {
@@ -51,6 +61,10 @@ namespace SpiritMVVM.Test
             PropertyListener listener = new PropertyListener(viewModel);
         }
 
+        /// <summary>
+        /// Ensures that a listener action is executed when the monitored parent object
+        /// raises a matching <see cref="INotifyPropertyChanged.PropertyChanged"/> event.
+        /// </summary>
         [TestMethod]
         public void AddListener_WhenPropertyChanged_ExecutesAction()
         {
@@ -67,6 +81,10 @@ namespace SpiritMVVM.Test
             Assert.IsTrue(actionExecuted, "Expected notification action to be executed");
         }
 
+        /// <summary>
+        /// Ensures that a listener action is provided with the correct, current value
+        /// of a monitored property.
+        /// </summary>
         [TestMethod]
         public void AddListener_WhenPropertyChanged_ProvidesValueToAction()
         {
@@ -84,6 +102,10 @@ namespace SpiritMVVM.Test
             Assert.AreEqual(expectedValue, actualValue, "Value delivered to listener was not correct.");
         }
 
+        /// <summary>
+        /// Ensures that a listener action is not executed when non-matching properties
+        /// are changed.
+        /// </summary>
         [TestMethod]
         public void RemoveListeners_WhenPropertyChanged_DoesNotExecuteAction()
         {

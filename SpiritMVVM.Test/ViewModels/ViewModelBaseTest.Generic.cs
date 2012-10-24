@@ -6,9 +6,16 @@ using SpiritMVVM.ViewModels;
 
 namespace SpiritMVVM.Test.ViewModels
 {
+    /// <summary>
+    /// Unit tests for the <see cref="ViewModelBase{T}"/> class.
+    /// </summary>
 	[TestClass]
 	public class ViewModelBaseTestGeneric
 	{
+        /// <summary>
+        /// Ensures that the default constructor will assign the expected default values to 
+        /// the Model and Messenger properties.
+        /// </summary>
         [TestMethod]
         public void Constructor_Default_AssignsDefaultModelAndMessenger()
         {
@@ -17,6 +24,10 @@ namespace SpiritMVVM.Test.ViewModels
             Assert.AreEqual(viewModelMock.Object.Messenger, Messenger.Default, "Expected Messenger.Default to be the default Messenger value.");
         }
 
+        /// <summary>
+        /// Ensures that the constructor with a messenger parameter will assign the expected default value to 
+        /// the Model property, and assign the provided value to the Messenger property.
+        /// </summary>
         [TestMethod]
         public void Constructor_WithMessenger_AssignsDefaultModelAndGivenMessengerValue()
         {
@@ -26,6 +37,10 @@ namespace SpiritMVVM.Test.ViewModels
             Assert.AreEqual(viewModelMock.Object.Messenger, messenger, "Expected Messenger to match the provided constructor argument.");
         }
 
+        /// <summary>
+        /// Ensures that the constructor with a model parameter will assign the expected default value to 
+        /// the Messenger property, and assign the provided value to the Model property.
+        /// </summary>
         [TestMethod]
         public void Constructor_WithModel_AssignsGivenModelValueAndDefaultMessenger()
         {
@@ -35,6 +50,10 @@ namespace SpiritMVVM.Test.ViewModels
             Assert.AreEqual(viewModelMock.Object.Messenger, Messenger.Default, "Expected Messenger.Default to be the default Messenger value.");
         }
 
+        /// <summary>
+        /// Ensures that the constructor with model and messenger parameters will assign the
+        /// provided values to the Model and Messenger properties.
+        /// </summary>
         [TestMethod]
         public void Constructor_WithModelAndMessenger_AssignsGivenModelAndMessengerValues()
         {
@@ -45,6 +64,9 @@ namespace SpiritMVVM.Test.ViewModels
             Assert.AreEqual(viewModelMock.Object.Messenger, messenger, "Expected Messenger to match the provided constructor argument.");
         }
 
+        /// <summary>
+        /// Ensures that the constructor will not result in execution of the OnModelChanged method.
+        /// </summary>
         [TestMethod]
         public void Constructor_Default_DoesNotCallOnModelChanged()
         {
@@ -53,6 +75,9 @@ namespace SpiritMVVM.Test.ViewModels
             viewModelMock.Protected().Verify("OnModelChanged", Times.Never(), ItExpr.IsAny<object>(), ItExpr.IsAny<object>());
         }
 
+        /// <summary>
+        /// Ensures that the constructor will not result in execution of the OnModelChanged method.
+        /// </summary>
         [TestMethod]
         public void Constructor_WithModel_DoesNotCallOnModelChanged()
         {
@@ -62,6 +87,9 @@ namespace SpiritMVVM.Test.ViewModels
             viewModelMock.Protected().Verify("OnModelChanged", Times.Never(), ItExpr.IsAny<object>(), ItExpr.IsAny<object>());
         }
 
+        /// <summary>
+        /// Ensures that the constructor will not result in execution of the OnModelChanged method.
+        /// </summary>
         [TestMethod]
         public void Constructor_WithMessenger_DoesNotCallOnModelChanged()
         {
@@ -71,6 +99,9 @@ namespace SpiritMVVM.Test.ViewModels
             viewModelMock.Protected().Verify("OnModelChanged", Times.Never(), ItExpr.IsAny<object>(), ItExpr.IsAny<object>());
         }
 
+        /// <summary>
+        /// Ensures that the constructor will not result in execution of the OnModelChanged method.
+        /// </summary>
         [TestMethod]
         public void Constructor_WithModelAndMessenger_DoesNotCallOnModelChanged()
         {
@@ -81,6 +112,9 @@ namespace SpiritMVVM.Test.ViewModels
             viewModelMock.Protected().Verify("OnModelChanged", Times.Never(), ItExpr.IsAny<object>(), ItExpr.IsAny<object>());
         }
 
+        /// <summary>
+        /// Ensures that the Get/Set accessors are able to assign and return the expected value.
+        /// </summary>
         [TestMethod]
         public void GetSetModel_WithValue_AssignsAndReturnsModelValue()
         {
@@ -92,6 +126,10 @@ namespace SpiritMVVM.Test.ViewModels
             Assert.AreEqual(viewModelMock.Object.Model, model, "Expected model values to match.");
         }
 
+        /// <summary>
+        /// Ensures that assigning a new value to the Model property will result 
+        /// in execution of the <see cref="ViewModelBase{T}.OnModelChanged"/> method.
+        /// </summary>
         [TestMethod]
         public void SetModel_WithValue_CallsOnMessengerChanged()
         {
