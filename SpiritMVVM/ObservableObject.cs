@@ -1,16 +1,13 @@
-﻿using SpiritMVVM.Utils;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
+using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
 {
     /// <summary>
-    /// 
+    /// Represents a base class implementing the <see cref="INotifyPropertyChanged"/> interface
+    /// through the use of an <see cref="IPropertyNotifier"/> utility instance.
     /// </summary>
     public class ObservableObject : INotifyPropertyChanged
     {
