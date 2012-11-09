@@ -38,6 +38,7 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <Compile Include="IObjectValidator.cs" />
     <Compile Include="IValidatableObject.cs" />
     <Compile Include="IPropertyListener.cs" />
     <Compile Include="IPropertyNotifier.cs" />
