@@ -61,7 +61,7 @@ namespace SpiritMVVM.Test.ViewModels
         {
             int expectedValue = 12;
             SelectionViewModel<int> viewModel = new SelectionViewModel<int>(expectedValue);
-            Assert.AreEqual(expectedValue, viewModel.Item, "Expected Item property to equal the constructor parameter.");
+            Assert.AreEqual(expectedValue, viewModel.Item, "Expected Item propertyName to equal the constructor parameter.");
         }
 
         /// <summary>
@@ -74,14 +74,14 @@ namespace SpiritMVVM.Test.ViewModels
             int expectedValue = 12;
             bool initialState = false;
             SelectionViewModel<int> viewModel = new SelectionViewModel<int>(expectedValue, initialState);
-            Assert.AreEqual(expectedValue, viewModel.Item, "Expected Item property to equal the constructor parameter.");
-            Assert.AreEqual(initialState, viewModel.IsSelected, "Expected IsSelected property to equal the constructor parameter.");
+            Assert.AreEqual(expectedValue, viewModel.Item, "Expected Item propertyName to equal the constructor parameter.");
+            Assert.AreEqual(initialState, viewModel.IsSelected, "Expected IsSelected propertyName to equal the constructor parameter.");
 
             expectedValue = 32;
             initialState = true;
             viewModel = new SelectionViewModel<int>(expectedValue, initialState);
-            Assert.AreEqual(expectedValue, viewModel.Item, "Expected Item property to equal the constructor parameter.");
-            Assert.AreEqual(initialState, viewModel.IsSelected, "Expected IsSelected property to equal the constructor parameter.");
+            Assert.AreEqual(expectedValue, viewModel.Item, "Expected Item propertyName to equal the constructor parameter.");
+            Assert.AreEqual(initialState, viewModel.IsSelected, "Expected IsSelected propertyName to equal the constructor parameter.");
         }
 
         /// <summary>

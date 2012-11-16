@@ -94,7 +94,7 @@ namespace SpiritMVVM.Test
             //We expect only a single property to be returned: "DependsOnBasePropertyDirect."
             //All other properties are either not dependant or indirectly dependant.
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyDirect),
-                "Did not find expected result property: {0}", 
+                "Did not find expected result propertyName: {0}", 
                 SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyDirect);
             Assert.IsTrue(results.Count() == 1, "Received more properties than were expected.");
         }
@@ -113,7 +113,7 @@ namespace SpiritMVVM.Test
             //We expect only a single property to be returned: "DependsOnBasePropertyDirect."
             //All other properties are either not dependant or indirectly dependant.
             Assert.IsFalse(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.SelfDependantPropertyDirect),
-                "Results should not contain the property which was provided as the source");
+                "Results should not contain the propertyName which was provided as the source");
         }
 
         #endregion
@@ -134,13 +134,13 @@ namespace SpiritMVVM.Test
                 SimpleClassWithDependantProperties.PropNames.BaseProperty);
 
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyDirect),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyDirect);
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyIndirectOne),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyIndirectOne);
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyIndirectTwo),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyIndirectTwo);
             Assert.IsTrue(results.Count() == 3, "Received more properties than were expected.");
         }
@@ -158,13 +158,13 @@ namespace SpiritMVVM.Test
                 SimpleClassWithDependantProperties.PropNames.MultiCircularBaseProperty);
 
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyOne),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyOne);
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyTwo),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyTwo);
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyThree),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyThree);
             Assert.IsTrue(results.Count() == 3, "Received more properties than were expected.");
         }
@@ -182,7 +182,7 @@ namespace SpiritMVVM.Test
                 SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyOne);
 
             Assert.IsFalse(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyOne),
-                "Results should not contain the property given as the source.");
+                "Results should not contain the propertyName given as the source.");
         }
 
         #endregion
@@ -203,7 +203,7 @@ namespace SpiritMVVM.Test
             //We expect only a single property to be returned: "DependsOnBasePropertyIndirectOne."
             //All other properties are either not dependencies or are indirect dependencies.
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyIndirectOne),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyIndirectOne);
             Assert.IsTrue(results.Count() == 1, "Received more properties than were expected.");
         }
@@ -223,7 +223,7 @@ namespace SpiritMVVM.Test
             //We expect only a single property to be returned: "DependsOnBasePropertyDirect."
             //All other properties are either not dependant or indirectly dependant.
             Assert.IsFalse(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.SelfDependantPropertyDirect),
-                "Results should not contain the property which was provided as the source");
+                "Results should not contain the propertyName which was provided as the source");
         }
 
         #endregion
@@ -244,13 +244,13 @@ namespace SpiritMVVM.Test
                 SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyIndirectTwo);
 
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.BaseProperty),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.BaseProperty);
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyDirect),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyDirect);
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyIndirectOne),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyIndirectOne);
             Assert.IsTrue(results.Count() == 3, "Received more properties than were expected.");
         }
@@ -268,13 +268,13 @@ namespace SpiritMVVM.Test
                 SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyThree);
 
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.MultiCircularBaseProperty),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.MultiCircularBaseProperty);
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyOne),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyOne);
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyTwo),
-                "Did not find expected result property: {0}",
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyTwo);
             Assert.IsTrue(results.Count() == 3, "Received more properties than were expected.");
         }
@@ -292,7 +292,7 @@ namespace SpiritMVVM.Test
                 SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyThree);
 
             Assert.IsFalse(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.MultiCircularDependencyThree),
-                "Results should not contain the property given as the source.");
+                "Results should not contain the propertyName given as the source.");
         }
 
         #endregion

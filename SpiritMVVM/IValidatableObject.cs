@@ -22,8 +22,8 @@ namespace SpiritMVVM
         /// Add an error description, associated with the given property name.
         /// </summary>
         /// <param name="propertyName">The name of the invalid property.</param>
-        /// <param name="error">A description of the error.</param>
-        void AddError(string propertyName, string error);
+        /// <param name="error">The error to add.</param>
+        void AddError(string propertyName, object error);
 
         /// <summary>
         /// Clear any errors from the given property name.
