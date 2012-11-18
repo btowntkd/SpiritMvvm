@@ -20,7 +20,9 @@ namespace SpiritMVVM
         #region Constructors
 
         /// <summary>
-        /// 
+        /// Create a new instance of an <see cref="ObservableObject"/>, with the default
+        /// <see cref="PropertyNotifier"/> implementation raising an event
+        /// for the changed property and all dependant properties.
         /// </summary>
         public ObservableObject()
         {

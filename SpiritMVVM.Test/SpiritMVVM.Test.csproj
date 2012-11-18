@@ -67,6 +67,7 @@
     <Compile Include="PropertyNotifierTest.cs" />
     <Compile Include="RelayCommandTest.cs" />
     <Compile Include="Utils\StringWrapperTest.cs" />
+    <Compile Include="ValidatableObjectTest.cs" />
     <Compile Include="ViewModels\SelectionViewModelTest.cs" />
     <Compile Include="ViewModels\ViewModelBaseTest.cs" />
   </ItemGroup>

@@ -75,7 +75,7 @@ namespace SpiritMVVM.Utils
         /// <summary>
         /// Get or Set the underlying Value.
         /// </summary>
-        public virtual T Value
+        public T Value
         {
             get { return Accessor.Getter(); }
             set
@@ -91,7 +91,7 @@ namespace SpiritMVVM.Utils
         /// <summary>
         /// Get or Set the String that wraps the underlying value type.
         /// </summary>
-        public virtual string StringValue
+        public string StringValue
         {
             get
             {
