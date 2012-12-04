@@ -8,7 +8,7 @@ namespace SpiritMVVM
     /// method and a <see cref="Func{T}"/> delegate to the <see cref="CanExecute"/> method,
     /// allowing <see cref="ICommand"/> objects to be implemented completely from within a View-Model.
     /// </summary>
-    public class RelayCommand : ICommand, IRaiseCanExecuteChanged
+    public class RelayCommand : ICommand, IRaiseCanExecuteChanged, IReactOnDependencyChanged
     {
         #region Private Fields
 
@@ -96,6 +96,19 @@ namespace SpiritMVVM
             {
                 handler(this, EventArgs.Empty);
             }
+        }
+
+        #endregion
+
+        #region IReactOnDependencyChanged Implementation
+
+        /// <summary>
+        /// Raises the <see cref="ICommand.CanExecuteChanged"/> event
+        /// when a dependency changes.
+        /// </summary>
+        void IReactOnDependencyChanged.OnDependencyChanged()
+        {
+            RaiseCanExecuteChanged();
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Reflection;
 using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
@@ -126,6 +127,12 @@ namespace SpiritMVVM
             var dependants = DependsOnAttribute.GetAllDependants(this.GetType(), propertyName);
             foreach (var dependant in dependants)
             {
+                object dependantValue = this.GetType().GetRuntimeProperty(propertyName).GetValue(this);
+                if (dependantValue is IReactOnDependencyChanged)
+                {
+                    ((IReactOnDependencyChanged)dependantValue).OnDependencyChanged();
+                }
+
                 RaisePropertyChanged(dependant.Name);
             }
         }
