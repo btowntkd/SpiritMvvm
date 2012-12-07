@@ -29,6 +29,13 @@ namespace SpiritMVVM.Test
                 set { Set(ref _testPropertyWithRef, value); }
             }
 
+            private object _testDependantProperty = null;
+            [DependsOn("TestPropertyWithRef")]
+            public object TestDependantProperty
+            {
+                get { return _testDependantProperty; }
+                set { Set(ref _testDependantProperty, value); }
+            }
         }
 
         /// <summary>
@@ -75,6 +82,25 @@ namespace SpiritMVVM.Test
                     It.IsAny<Action<int, int>>(), 
                     It.IsAny<string>()), 
                 Moq.Times.Once());
+        }
+
+        /// <summary>
+        /// Ensures that the IReactOnDependencyChanged interface is correctly
+        /// detected and executed when a dependency is modified.
+        /// </summary>
+        [TestMethod]
+        public void RaisePropertyChangedDependants_WhenPropertyImplementsIReactOnDependencyChanged_CallsOnDependencyChanged()
+        {
+            bool callbackExecuted = false;
+            var onDependencyChanged = new Mock<IReactOnDependencyChanged>();
+            onDependencyChanged.Setup((x) => x.OnDependencyChanged()).Callback(() => callbackExecuted = true);
+            var testObj = new ObservableTestObject();
+            testObj.TestDependantProperty = onDependencyChanged.Object;
+            testObj.TestPropertyWithRef = 12;
+
+
+            Assert.IsTrue(callbackExecuted, "Expected OnDependencyChanged callback to be executed.");
+
         }
     }
 }

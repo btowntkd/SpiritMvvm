@@ -127,7 +127,7 @@ namespace SpiritMVVM
             var dependants = DependsOnAttribute.GetAllDependants(this.GetType(), propertyName);
             foreach (var dependant in dependants)
             {
-                object dependantValue = this.GetType().GetRuntimeProperty(propertyName).GetValue(this);
+                object dependantValue = this.GetType().GetRuntimeProperty(dependant.Name).GetValue(this);
                 if (dependantValue is IReactOnDependencyChanged)
                 {
                     ((IReactOnDependencyChanged)dependantValue).OnDependencyChanged();
