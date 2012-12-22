@@ -167,7 +167,7 @@ namespace SpiritMVVM.Test
             Assert.IsTrue(eventRaised, "The ErrorsChanged event was not raised.");
             Assert.AreEqual(expectedPropertyName, receivedPropertyName,
                 "The received PropertyName event argument was not equal"
-                + " to the property name specified in AddError.");
+                + " to the property name specified in ClearErrors.");
         }
 
         /// <summary>
