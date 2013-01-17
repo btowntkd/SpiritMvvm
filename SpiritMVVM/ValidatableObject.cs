@@ -38,8 +38,23 @@ namespace SpiritMVVM
         {
             lock (_propertyErrorsAccessLock)
             {
-                var errors = GetOrCreateErrorListForProperty(propertyName);
-                errors.Add(error);
+                var currentErrors = GetOrCreateErrorListForProperty(propertyName);
+                currentErrors.Add(error);
+            }
+            RaiseErrorsChanged(propertyName);
+        }
+
+        /// <summary>
+        /// Add multiple error descriptions, associated with the given property name.
+        /// </summary>
+        /// <param name="propertyName">The name of the invalid property.</param>
+        /// <param name="errors">The errors to add.</param>
+        public void AddErrors(string propertyName, IEnumerable<object> errors)
+        {
+            lock (_propertyErrorsAccessLock)
+            {
+                var currentErrors = GetOrCreateErrorListForProperty(propertyName);
+                currentErrors.AddRange(errors);
             }
             RaiseErrorsChanged(propertyName);
         }
@@ -50,21 +65,42 @@ namespace SpiritMVVM
         /// <param name="propertyName">The property for which to clear any errors.</param>
         public void ClearErrors(string propertyName)
         {
-            bool errorsCleared = false;
+            bool notificationRequired = false;
             lock (_propertyErrorsAccessLock)
             {
                 var errors = GetOrCreateErrorListForProperty(propertyName);
                 if (errors.Count > 0)
                 {
                     errors.Clear();
-                    errorsCleared = true;
+                    notificationRequired = true;
                 }
             }
 
             //Delay the ErrorsChanged event until we've released the lock
-            if (errorsCleared)
+            if (notificationRequired)
             {
                 RaiseErrorsChanged(propertyName);
+            }
+        }
+
+        /// <summary>
+        /// Clear all errors from the current object instance.
+        /// </summary>
+        public void ClearAllErrors()
+        {
+            bool notificationRequired = false;
+            lock (_propertyErrorsAccessLock)
+            {
+                if (HasErrors)
+                {
+                    _propertyErrorListPairs.Clear();
+                    notificationRequired = true;
+                }
+            }
+
+            if (notificationRequired)
+            {
+                RaiseErrorsChanged(string.Empty);
             }
         }
 
@@ -76,14 +112,6 @@ namespace SpiritMVVM
         /// Event which is raised whenever the validation state of the instance changes.
         /// </summary>
         public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged = null;
-
-        /// <summary>
-        /// Get the value indicating whether nay errors exist on the current instance.
-        /// </summary>
-        public bool HasErrors
-        {
-            get { return (GetFlattenedListOfAllErrors().Count > 0); }
-        }
 
         /// <summary>
         /// Get the collection of errors for the given property name.
@@ -100,6 +128,14 @@ namespace SpiritMVVM
                         .ToList();
             }
             return errors;
+        }
+
+        /// <summary>
+        /// Get the value indicating whether nay errors exist on the current instance.
+        /// </summary>
+        public bool HasErrors
+        {
+            get { return (GetFlattenedListOfAllErrors().Count > 0); }
         }
 
         #endregion

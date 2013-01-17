@@ -1,9 +1,6 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpiritMVVM
 {
@@ -26,9 +23,21 @@ namespace SpiritMVVM
         void AddError(string propertyName, object error);
 
         /// <summary>
+        /// Add multiple error descriptions, associated with the given property name.
+        /// </summary>
+        /// <param name="propertyName">The name of the invalid property.</param>
+        /// <param name="errors">The errors to add.</param>
+        void AddErrors(string propertyName, IEnumerable<object> errors);
+
+        /// <summary>
         /// Clear any errors from the given property name.
         /// </summary>
         /// <param name="propertyName">The property for which to clear any errors.</param>
         void ClearErrors(string propertyName);
+
+        /// <summary>
+        /// Clear all errors from the current object instance.
+        /// </summary>
+        void ClearAllErrors();
     }
 }

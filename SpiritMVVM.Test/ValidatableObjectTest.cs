@@ -167,7 +167,7 @@ namespace SpiritMVVM.Test
             Assert.IsTrue(eventRaised, "The ErrorsChanged event was not raised.");
             Assert.AreEqual(expectedPropertyName, receivedPropertyName,
                 "The received PropertyName event argument was not equal"
-                + " to the property name specified in AddError.");
+                + " to the property name specified in ClearErrors.");
         }
 
         /// <summary>
@@ -184,6 +184,81 @@ namespace SpiritMVVM.Test
                 eventRaised = true;
             };
             testObj.ClearErrors("SomeRandomProperty");
+
+            Assert.IsFalse(eventRaised, "The ErrorsChanged event was raised, but should not have.");
+        }
+
+        /// <summary>
+        /// Ensures that ClearErrors will remove all current errors for the 
+        /// specified property name, and *ONLY* for that property.
+        /// </summary>
+        [TestMethod]
+        public void ClearAllErrors_AfterErrorsAdded_RemovesAllErrors()
+        {
+            var testObj = new ValidatableObject();
+
+            const string firstProperty = "MyProperty1";
+            const string secondProperty = "MyProperty2";
+            var firstError = "BLAH1";
+            var secondError = "BLAH2";
+
+            //Add 4 errors total - 2 errors for each of 2 properties
+            testObj.AddError(firstProperty, firstError);
+            testObj.AddError(firstProperty, secondError);
+            testObj.AddError(secondProperty, firstError);
+            testObj.AddError(secondProperty, secondError);
+
+            //Clear all the errors
+            testObj.ClearAllErrors();
+
+            //Get the list of current errors for both properties
+            var firstPropertyErrors = testObj.GetErrors(firstProperty).OfType<object>().ToList();
+            var secondPropertyErrors = testObj.GetErrors(secondProperty).OfType<object>().ToList();
+
+            Assert.IsFalse(testObj.HasErrors, "Did not expect to find any validation errors on the target object");
+        }
+
+        /// <summary>
+        /// Ensures that ClearErrors will raise the ErrorsChanged
+        /// event, if the property had errors to begin with.
+        /// </summary>
+        [TestMethod]
+        public void ClearAllErrors_AfterErrorsAdded_RaisesErrorsChangedEvent()
+        {
+            bool eventRaised = false;
+            string expectedPropertyName = string.Empty;
+            string receivedPropertyName = string.Empty;
+            var testObj = new ValidatableObject();
+            testObj.AddError(expectedPropertyName, "BlahBlahBlah");
+
+            testObj.ErrorsChanged += (sender, args) =>
+            {
+                eventRaised = true;
+                receivedPropertyName = args.PropertyName;
+            };
+
+            testObj.ClearAllErrors();
+
+            Assert.IsTrue(eventRaised, "The ErrorsChanged event was not raised.");
+            Assert.AreEqual(expectedPropertyName, receivedPropertyName,
+                "The received PropertyName event argument was not equal"
+                + " to the property name specified in ClearAllErrors.");
+        }
+
+        /// <summary>
+        /// Ensures that ClearErrors will NOT raise the ErrorsChanged
+        /// event, if the property did not have errors to begin with.
+        /// </summary>
+        [TestMethod]
+        public void ClearAllErrors_WithoutErrorsAdded_DoesNotRaiseErrorsChangedEvent()
+        {
+            bool eventRaised = false;
+            var testObj = new ValidatableObject();
+            testObj.ErrorsChanged += (sender, args) =>
+            {
+                eventRaised = true;
+            };
+            testObj.ClearAllErrors();
 
             Assert.IsFalse(eventRaised, "The ErrorsChanged event was raised, but should not have.");
         }
