@@ -43,7 +43,6 @@
     <Compile Include="IValidatableObject.cs" />
     <Compile Include="IPropertyListener.cs" />
     <Compile Include="IPropertyNotifier.cs" />
-    <Compile Include="ObjectValidator.cs" />
     <Compile Include="Utils\IContext.cs" />
     <Compile Include="Utils\StringWrapper.cs" />
     <Compile Include="ValidatableObject.cs" />

@@ -23,7 +23,7 @@ namespace SpiritMVVM
         public PropertyNotifier(Action<string> propertyChangedAction)
         {
             if (propertyChangedAction == null)
-                throw new ArgumentNullException("raisePropertyChangedAction");
+                throw new ArgumentNullException("propertyChangedAction");
 
             _raisePropertyChangedAction = propertyChangedAction;
         }

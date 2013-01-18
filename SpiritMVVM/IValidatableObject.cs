@@ -30,7 +30,7 @@ namespace SpiritMVVM
         void AddErrors(string propertyName, IEnumerable<object> errors);
 
         /// <summary>
-        /// Clear any errors from the given property name.
+        /// Clear all errors from the given property name.
         /// </summary>
         /// <param name="propertyName">The property for which to clear any errors.</param>
         void ClearErrors(string propertyName);
