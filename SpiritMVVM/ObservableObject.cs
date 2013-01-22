@@ -1,8 +1,10 @@
-﻿using System;
+﻿using SpiritMVVM.PropertyMapping;
+using SpiritMVVM.Utils;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
 {
@@ -96,7 +98,7 @@ namespace SpiritMVVM
         #region INotifyPropertyChanged
 
         /// <summary>
-        /// 
+        /// Event raised whenever a member property changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged = null;
 

@@ -43,6 +43,10 @@
     <Compile Include="IValidatableObject.cs" />
     <Compile Include="IPropertyListener.cs" />
     <Compile Include="IPropertyNotifier.cs" />
+    <Compile Include="PropertyMapping\IPropertyMapBuilder.cs" />
+    <Compile Include="PropertyMapping\IMapDependencies.cs" />
+    <Compile Include="PropertyMapping\PropertyMapBuilder.cs" />
+    <Compile Include="Utils\ExpressionExtensions.cs" />
     <Compile Include="Utils\IContext.cs" />
     <Compile Include="Utils\StringWrapper.cs" />
     <Compile Include="ValidatableObject.cs" />
