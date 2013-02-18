@@ -1,10 +1,8 @@
-﻿using SpiritMVVM.PropertyMapping;
-using SpiritMVVM.Utils;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
 {
@@ -31,9 +29,23 @@ namespace SpiritMVVM
         {
             PropertyNotifier = new PropertyNotifier((propName) => 
             {
-                RaisePropertyChanged(propName);
-                RaisePropertyChangedDependants(propName);
+                this.RaisePropertyChanged(propName);
+                this.RaisePropertyChangedDependants(propName);
             });
+        }
+
+        /// <summary>
+        /// Create a new instance of an <see cref="ObservableObject"/>,
+        /// with a user-specified <see cref="IPropertyNotifier"/> implementation.
+        /// </summary>
+        /// <param name="propertyNotifier">The user-specified 
+        /// <see cref="IPropertyNotifier"/> implementation.</param>
+        public ObservableObject(IPropertyNotifier propertyNotifier)
+        {
+            if (propertyNotifier == null)
+                throw new ArgumentNullException("propertyNotifier");
+
+            PropertyNotifier = propertyNotifier;
         }
 
         #endregion
@@ -51,7 +63,7 @@ namespace SpiritMVVM
             set
             {
                 if (value == null)
-                    throw new ArgumentNullException("value", "PropertyHelper cannot be null");
+                    throw new ArgumentNullException("value", "PropertyNotifier cannot be null");
 
                 _propertyNotifier = value;
             }
