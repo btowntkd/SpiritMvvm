@@ -40,10 +40,9 @@ namespace SpiritMVVM.ViewModels
         /// <param name="messenger">The messenger to use when broadcasting messages.</param>
         public ViewModelBase(IMessenger messenger)
         {
-            // Assign the value directly to the backing store,
-            // because we do not want to invoke OnMessengerChanged
-            // when assigning the default value.
-            _messenger = messenger; 
+            // Assign the value to the property wrapper,
+            // to ensure that the "OnMessengerChanged" method is called.
+            Messenger = messenger; 
         }
 
         /// <summary>
