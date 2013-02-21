@@ -88,6 +88,7 @@
     <Compile Include="ViewModels\ViewModelBaseTest.Generic.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messaging\MessageTest.Generic.cs" />
     <None Include="packages.config" />
   </ItemGroup>
   <Choose>

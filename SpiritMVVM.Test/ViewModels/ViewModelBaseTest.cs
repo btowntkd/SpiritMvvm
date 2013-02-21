@@ -83,7 +83,7 @@ namespace SpiritMVVM.Test.ViewModels
 
             viewModelMock.Object.Messenger = messenger;
             viewModelMock.Protected().Setup("OnMessengerChanged", ItExpr.IsAny<IMessenger>(), ItExpr.IsAny<IMessenger>());
-            viewModelMock.Protected().Verify("OnMessengerChanged", Times.Once(), ItExpr.IsAny<IMessenger>(), ItExpr.IsAny<IMessenger>());
+            viewModelMock.Protected().Verify("OnMessengerChanged", Times.AtLeastOnce(), ItExpr.IsAny<IMessenger>(), ItExpr.IsAny<IMessenger>());
         }
     }
 }
