@@ -7,22 +7,40 @@ namespace SpiritMVVM.PropertyMapping
 {
     internal class PropertyMapBuilder : IPropertyMapBuilder
     {
-        private readonly List<string> _dependencies;
+        private readonly Action<string> _addDependantAction;
 
-        public PropertyMapBuilder(List<string> dependencies)
+        /// <summary>
+        /// Create a new instance of the <see cref="PropertyMapBuilder"/>,
+        /// passing in a delegate to execute when reverse-mapping property dependencies.
+        /// </summary>
+        /// <param name="addDependantAction"></param>
+        public PropertyMapBuilder(Action<string> addDependantAction)
         {
-            _dependencies = dependencies;
+            if (addDependantAction == null)
+                throw new ArgumentNullException("addDependantAction");
+            
+            _addDependantAction = addDependantAction;
         }
 
+        /// <summary>
+        /// Add a dependency to the currently-targeted property.
+        /// </summary>
+        /// <param name="propertyName">The name of the dependency.</param>
+        /// <returns>Returns the current fluent syntax object for mapping
+        /// additional dependencies.</returns>
         public IPropertyMapBuilder DependsOn(string propertyName)
         {
-            if (!_dependencies.Contains(propertyName))
-            {
-                _dependencies.Add(propertyName);
-            }
+            _addDependantAction(propertyName);
             return this;
         }
 
+        /// <summary>
+        /// Add a dependency to the currently-targeted property.
+        /// </summary>
+        /// <typeparam name="TProperty">The type of the added dependency.</typeparam>
+        /// <param name="propertyExpression">The name of the dependency.</param>
+        /// <returns>Returns the current fluent syntax object for mapping
+        /// additional dependencies.</returns>
         public IPropertyMapBuilder DependsOn<TProperty>(Expression<Func<TProperty>> propertyExpression)
         {
             string propertyName = propertyExpression.PropertyName();

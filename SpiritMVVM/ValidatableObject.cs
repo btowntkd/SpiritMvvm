@@ -169,10 +169,13 @@ namespace SpiritMVVM
         private List<object> GetOrCreateErrorListForProperty(string propertyName)
         {
             List<object> errors;
-            if (!_propertyErrorListPairs.TryGetValue(propertyName, out errors))
+            lock (_propertyErrorsAccessLock)
             {
-                errors = new List<object>();
-                _propertyErrorListPairs[propertyName] = errors;
+                if (!_propertyErrorListPairs.TryGetValue(propertyName, out errors))
+                {
+                    errors = new List<object>();
+                    _propertyErrorListPairs[propertyName] = errors;
+                }
             }
             return errors;
         }

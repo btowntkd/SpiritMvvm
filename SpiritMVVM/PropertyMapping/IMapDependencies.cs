@@ -29,22 +29,24 @@ namespace SpiritMVVM.PropertyMapping
         IPropertyMapBuilder Property<TProperty>(Expression<Func<TProperty>> propertyExpression);
 
         /// <summary>
-        /// Get the list of all dependencies for a given property.
+        /// Get the list of all properties which depend on the given property.
         /// </summary>
-        /// <remarks>The resulting list should include indirect dependencies
-        /// as well (i.e. A depends on B, which depends on C).</remarks>
-        /// <param name="propertyName">The property for which to gather all depedencies.</param>
-        /// <returns>Returns the list of all properties for which the given property depends.</returns>
-        List<string> GetDependenciesFor(string propertyName);
+        /// <remarks>The resulting list should include indirect dependants
+        /// as well as direct ones (i.e. if A depends on B, and B depends on C,
+        /// then the list of dependants from C will include both A and B).</remarks>
+        /// <param name="propertyName">The property for which to gather all dependants.</param>
+        /// <returns>Returns the list of all properties which are dependant on the given property.</returns>
+        IEnumerable<string> GetDependantsFor(string propertyName);
 
         /// <summary>
-        /// Get the list of all dependencies for a given property.
+        /// Get the list of all properties which depend on the given property.
         /// </summary>
-        /// <remarks>The resulting list should include indirect dependencies
-        /// as well (i.e. A depends on B, which depends on C).</remarks>
+        /// <remarks>The resulting list should include indirect dependants
+        /// as well as direct ones (i.e. if A depends on B, and B depends on C,
+        /// then the list of dependants from C will include both A and B).</remarks>
         /// <typeparam name="TProperty">The type of the target property.</typeparam>
-        /// <param name="propertyExpression">The property for which to gather all depedencies.</param>
-        /// <returns>Returns the list of all properties for which the given property depends.</returns>
-        List<string> GetDependenciesFor<TProperty>(Expression<Func<TProperty>> propertyExpression);
+        /// <param name="propertyExpression">The property for which to gather all dependants.</param>
+        /// <returns>Returns the list of all properties which are dependant on the given property.</returns>
+        IEnumerable<string> GetDependantsFor<TProperty>(Expression<Func<TProperty>> propertyExpression);
     }
 }

@@ -30,11 +30,19 @@ namespace SpiritMVVM.Test
             }
 
             private object _testDependantProperty = null;
+            
             [DependsOn("TestPropertyWithRef")]
             public object TestDependantProperty
             {
                 get { return _testDependantProperty; }
                 set { Set(ref _testDependantProperty, value); }
+            }
+
+            private object _testFluentDependantProperty = null;
+            public object TestFluentDependantProperty
+            {
+                get { return _testFluentDependantProperty; }
+                set { Set(ref _testFluentDependantProperty, value); }
             }
         }
 
@@ -101,6 +109,71 @@ namespace SpiritMVVM.Test
 
             Assert.IsTrue(callbackExecuted, "Expected OnDependencyChanged callback to be executed.");
 
+        }
+
+        /// <summary>
+        /// Ensures that the Dependency Mapping facilities correctly
+        /// provides dependant properties during the NotifyPropertyChanged methods,
+        /// when the <see cref="DependsOnAttribute"/> is used for dependeny mapping.
+        /// </summary>
+        [TestMethod]
+        public void DependsOnAttribute_WhenPropertyHasDependants_CallsOnPropertyChangedForDependants()
+        {
+            bool eventRaised = false;
+            var testObj = new ObservableTestObject();
+            testObj.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == "TestDependantProperty")
+                    eventRaised = true;
+            };
+            testObj.TestPropertyWithRef = 12;
+
+
+            Assert.IsTrue(eventRaised, "Expected PropertyChanged event to be raised for directly-dependant property.");
+        }
+
+        /// <summary>
+        /// Ensures that the Dependency Mapping facilities correctly
+        /// provides dependant properties during the NotifyPropertyChanged methods,
+        /// when the Fluent mapping syntax is used for dependency mapping.
+        /// </summary>
+        [TestMethod]
+        public void FluentDependencySyntax_WhenPropertyHasDirectDependants_CallsOnPropertyChangedForDependants()
+        {
+            bool eventRaised = false;
+            var testObj = new ObservableTestObject();
+            testObj.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == "TestFluentDependantProperty")
+                    eventRaised = true;
+            };
+
+            testObj.Property("TestFluentDependantProperty").DependsOn("TestPropertyWithRef");
+            testObj.TestPropertyWithRef = 12;
+
+            Assert.IsTrue(eventRaised, "Expected PropertyChanged event to be raised for directly-dependant property.");
+        }
+
+        /// <summary>
+        /// Ensures that the Dependency Mapping facilities correctly
+        /// provides dependant properties during the NotifyPropertyChanged methods,
+        /// when the Fluent mapping syntax is used for dependency mapping.
+        /// </summary>
+        [TestMethod]
+        public void FluentDependencySyntax_WhenPropertyHasIndirectDependants_CallsOnPropertyChangedForDependants()
+        {
+            bool eventRaised = false;
+            var testObj = new ObservableTestObject();
+            testObj.PropertyChanged += (sender, args) =>
+            {
+                if (args.PropertyName == "TestFluentDependantProperty")
+                    eventRaised = true;
+            };
+
+            testObj.Property("TestFluentDependantProperty").DependsOn("TestDependantProperty");
+            testObj.TestPropertyWithRef = 12;
+
+            Assert.IsTrue(eventRaised, "Expected PropertyChanged event to be raised for indirectly-dependant property.");
         }
     }
 }

@@ -88,7 +88,8 @@ namespace SpiritMVVM
         public static IEnumerable<PropertyInfo> GetAllDependants(Type targetType, string propertyName)
         {
             //Retrieve the Property Info for the specified property
-            var propertyInfo = targetType.GetRuntimeProperty(propertyName);
+            var propertyInfo = targetType.GetRuntimeProperties()
+                .First(x => x.Name == propertyName);
 
             IEnumerable<PropertyInfo> oldResults = null;
             IEnumerable<PropertyInfo> results = new[] { propertyInfo };
@@ -124,7 +125,8 @@ namespace SpiritMVVM
         public static IEnumerable<PropertyInfo> GetDirectDependencies(Type targetType, string propertyName)
         {
             //Retrieve the Property Info for the specified property
-            var propertyInfo = targetType.GetRuntimeProperty(propertyName);
+            var propertyInfo = targetType.GetRuntimeProperties()
+                .First(x => x.Name == propertyName);
 
             //Get the names of all properties specified in the target property's DependsOnAttributes
             var dependencyNames = from attribute in propertyInfo
@@ -152,7 +154,8 @@ namespace SpiritMVVM
         public static IEnumerable<PropertyInfo> GetAllDependencies(Type targetType, string propertyName)
         {
             //Retrieve the Property Info for the specified property
-            var propertyInfo = targetType.GetRuntimeProperty(propertyName);
+            var propertyInfo = targetType.GetRuntimeProperties()
+                .First(x => x.Name == propertyName);
 
             IEnumerable<PropertyInfo> oldResults = null;
             IEnumerable<PropertyInfo> results = new[] { propertyInfo };

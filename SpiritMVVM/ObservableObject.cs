@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using SpiritMVVM.PropertyMapping;
 using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
@@ -10,11 +14,13 @@ namespace SpiritMVVM
     /// Represents a base class implementing the <see cref="INotifyPropertyChanged"/> interface
     /// through the use of an <see cref="IPropertyNotifier"/> utility instance.
     /// </summary>
-    public class ObservableObject : INotifyPropertyChanged
+    public class ObservableObject : INotifyPropertyChanged, IMapDependencies
     {
         #region Private Fields
 
         private IPropertyNotifier _propertyNotifier;
+        private Dictionary<string, List<string>> _propertyDependants = new Dictionary<string, List<string>>();
+        private object _propertyDependantsLock = new object();
 
         #endregion
 
@@ -32,6 +38,7 @@ namespace SpiritMVVM
                 this.RaisePropertyChanged(propName);
                 this.RaisePropertyChangedDependants(propName);
             });
+            ScanForDependsOnAttributes();
         }
 
         /// <summary>
@@ -46,6 +53,7 @@ namespace SpiritMVVM
                 throw new ArgumentNullException("propertyNotifier");
 
             PropertyNotifier = propertyNotifier;
+            ScanForDependsOnAttributes();
         }
 
         #endregion
@@ -138,16 +146,132 @@ namespace SpiritMVVM
         /// the dependency.</remarks>
         protected virtual void RaisePropertyChangedDependants(string propertyName)
         {
-            var dependants = DependsOnAttribute.GetAllDependants(this.GetType(), propertyName);
+            var dependants = GetDependantsFor(propertyName);
             foreach (var dependant in dependants)
             {
-                object dependantValue = this.GetType().GetRuntimeProperty(dependant.Name).GetValue(this);
+                object dependantValue = this.GetType().GetRuntimeProperty(dependant).GetValue(this);
                 if (dependantValue is IReactOnDependencyChanged)
                 {
                     ((IReactOnDependencyChanged)dependantValue).OnDependencyChanged();
                 }
 
-                RaisePropertyChanged(dependant.Name);
+                RaisePropertyChanged(dependant);
+            }
+        }
+
+        #endregion
+
+        #region IMapDependencies
+
+        /// <summary>
+        /// Begin mapping a new property's dependencies using fluent syntax.
+        /// </summary>
+        /// <param name="propertyName">The property for which to add dependencies.</param>
+        /// <returns>Returns a fluent property dependency builder.</returns>
+        public IPropertyMapBuilder Property(string propertyName)
+        {
+            return new PropertyMapBuilder((dependency) =>
+            {
+                lock (_propertyDependantsLock)
+                {
+                    var dependantsList = GetOrCreateDependantsList(dependency);
+                    if (!dependantsList.Contains(propertyName))
+                    {
+                        dependantsList.Add(propertyName);
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        /// Begin mapping a new property's dependencies using fluent syntax.
+        /// </summary>
+        /// <typeparam name="TProperty">The type of the target property.</typeparam>
+        /// <param name="propertyExpression">The property for which to add dependencies.</param>
+        /// <returns>Returns a fluent property dependency builder.</returns>
+        public IPropertyMapBuilder Property<TProperty>(Expression<Func<TProperty>> propertyExpression)
+        {
+            return Property(propertyExpression.PropertyName());
+        }
+
+        /// <summary>
+        /// Get the list of all properties which depend on the given property.
+        /// </summary>
+        /// <remarks>The resulting list should include indirect dependants
+        /// as well as direct ones (i.e. if A depends on B, and B depends on C,
+        /// then the list of dependants from C will include both A and B).</remarks>
+        /// <param name="propertyName">The property for which to gather all dependants.</param>
+        /// <returns>Returns the list of all properties which are dependant on the given property.</returns>
+        public IEnumerable<string> GetDependantsFor(string propertyName)
+        {
+            List<string> dependants;
+            lock (_propertyDependantsLock)
+            {
+                //Create a copy of the dependency list, for thread-safety
+                dependants = GetOrCreateDependantsList(propertyName)
+                    .ToList();
+            }
+            return dependants;
+        }
+
+        /// <summary>
+        /// Get the list of all properties which depend on the given property.
+        /// </summary>
+        /// <remarks>The resulting list should include indirect dependants
+        /// as well as direct ones (i.e. if A depends on B, and B depends on C,
+        /// then the list of dependants from C will include both A and B).</remarks>
+        /// <typeparam name="TProperty">The type of the target property.</typeparam>
+        /// <param name="propertyExpression">The property for which to gather all dependants.</param>
+        /// <returns>Returns the list of all properties which are dependant on the given property.</returns>
+        public IEnumerable<string> GetDependantsFor<TProperty>(Expression<Func<TProperty>> propertyExpression)
+        {
+            return GetDependantsFor(propertyExpression.PropertyName());
+        }
+
+        /// <summary>
+        /// Retrieve the list of dependencies for the current property, from the backing store.
+        /// If no list currently exists, create one and add it to the backing store automatically,
+        /// before returning.
+        /// </summary>
+        /// <param name="propertyKey">The property for which to retrieve the list of dependencies.</param>
+        /// <returns>Returns the current list of dependencies for the given property, for editing.</returns>
+        private List<string> GetOrCreateDependantsList(string propertyKey)
+        {
+            List<string> result = null;
+            lock (_propertyDependantsLock)
+            {
+                if (!_propertyDependants.TryGetValue(propertyKey, out result))
+                {
+                    result = new List<string>();
+                    _propertyDependants[propertyKey] = result;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// Scans over the current Type, detecting any usage of the "DependsOn" attribute
+        /// and adding it to the list of property dependencies.
+        /// </summary>
+        private void ScanForDependsOnAttributes()
+        {
+            Type type = this.GetType();
+            var runtimeProperties = type.GetRuntimeProperties();
+
+            foreach (var property in runtimeProperties)
+            {
+                var attributeDependencies = DependsOnAttribute.GetAllDependants(type, property.Name);
+                lock(_propertyDependantsLock)
+                {
+                    List<string> dependencies = GetOrCreateDependantsList(property.Name);
+                    foreach (var dependencyToAdd in attributeDependencies)
+                    {
+                        if (!dependencies.Contains(dependencyToAdd.Name))
+                        {
+                            dependencies.Add(dependencyToAdd.Name);
+                        }
+                    }
+                }
             }
         }
 
