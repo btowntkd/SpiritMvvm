@@ -19,8 +19,8 @@ namespace SpiritMVVM
         #region Private Fields
 
         private IPropertyNotifier _propertyNotifier;
-        private Dictionary<string, List<string>> _propertyDependants = new Dictionary<string, List<string>>();
-        private object _propertyDependantsLock = new object();
+        private Dictionary<string, List<string>> _propertyDependencies = new Dictionary<string, List<string>>();
+        private object _propertyDependenciesLock = new object();
 
         #endregion
 
@@ -172,14 +172,7 @@ namespace SpiritMVVM
         {
             return new PropertyMapBuilder((dependency) =>
             {
-                lock (_propertyDependantsLock)
-                {
-                    var dependantsList = GetOrCreateDependantsList(dependency);
-                    if (!dependantsList.Contains(propertyName))
-                    {
-                        dependantsList.Add(propertyName);
-                    }
-                }
+                AddPropertyDependency(propertyName, dependency);
             });
         }
 
@@ -204,14 +197,26 @@ namespace SpiritMVVM
         /// <returns>Returns the list of all properties which are dependant on the given property.</returns>
         public IEnumerable<string> GetDependantsFor(string propertyName)
         {
-            List<string> dependants;
-            lock (_propertyDependantsLock)
+            IEnumerable<string> oldResults = null;
+            IEnumerable<string> results = new[] { propertyName };
+            do
             {
-                //Create a copy of the dependency list, for thread-safety
-                dependants = GetOrCreateDependantsList(propertyName)
-                    .ToList();
+                oldResults = results;
+
+                var groupDependants = from input in results
+                                      from dependancy in GetDirectDependantsFor(input)
+                                      select dependancy;
+
+                //Create union of current results with "new" results,
+                //making sure to remove duplicates
+                results = results.Union(groupDependants)
+                    .GroupBy(x => x)
+                    .Select(grp => grp.First());
             }
-            return dependants;
+            while (results.Count() > oldResults.Count());
+
+            //Return results not including the original property name
+            return results.Where(x => (x != propertyName));
         }
 
         /// <summary>
@@ -229,21 +234,37 @@ namespace SpiritMVVM
         }
 
         /// <summary>
+        /// Get the direct dependants for a given property.
+        /// </summary>
+        /// <param name="propertyName">The property for which to collect all direct dependants.</param>
+        /// <returns>Returns a list of all properties which directly depend on the given property.</returns>
+        private IEnumerable<string> GetDirectDependantsFor(string propertyName)
+        {
+            lock (_propertyDependenciesLock)
+            {
+                return from dependenciesKVP in _propertyDependencies
+                       where dependenciesKVP.Key != propertyName //Ignore the original property, if it depends on itself
+                       where dependenciesKVP.Value.Any(dependency => (dependency == propertyName))
+                       select dependenciesKVP.Key;
+            }
+        }
+
+        /// <summary>
         /// Retrieve the list of dependencies for the current property, from the backing store.
         /// If no list currently exists, create one and add it to the backing store automatically,
         /// before returning.
         /// </summary>
         /// <param name="propertyKey">The property for which to retrieve the list of dependencies.</param>
         /// <returns>Returns the current list of dependencies for the given property, for editing.</returns>
-        private List<string> GetOrCreateDependantsList(string propertyKey)
+        private List<string> GetOrCreateDependenciesList(string propertyKey)
         {
             List<string> result = null;
-            lock (_propertyDependantsLock)
+            lock (_propertyDependenciesLock)
             {
-                if (!_propertyDependants.TryGetValue(propertyKey, out result))
+                if (!_propertyDependencies.TryGetValue(propertyKey, out result))
                 {
                     result = new List<string>();
-                    _propertyDependants[propertyKey] = result;
+                    _propertyDependencies[propertyKey] = result;
                 }
             }
             return result;
@@ -260,17 +281,30 @@ namespace SpiritMVVM
 
             foreach (var property in runtimeProperties)
             {
-                var attributeDependencies = DependsOnAttribute.GetAllDependants(type, property.Name);
-                lock(_propertyDependantsLock)
+                var dependencies = property.GetCustomAttributes(typeof(DependsOnAttribute), true)
+                    .Cast<DependsOnAttribute>()
+                    .Select(attribute => attribute.Property);
+
+                foreach(var dependency in dependencies)
                 {
-                    List<string> dependencies = GetOrCreateDependantsList(property.Name);
-                    foreach (var dependencyToAdd in attributeDependencies)
-                    {
-                        if (!dependencies.Contains(dependencyToAdd.Name))
-                        {
-                            dependencies.Add(dependencyToAdd.Name);
-                        }
-                    }
+                    AddPropertyDependency(property.Name, dependency);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Adds a property dependency mapping to the map.
+        /// </summary>
+        /// <param name="dependantPropertyName">The target (dependant) property.</param>
+        /// <param name="dependencyPropertyName">The property on which the target property depends.</param>
+        private void AddPropertyDependency(string dependantPropertyName, string dependencyPropertyName)
+        {
+            lock (_propertyDependenciesLock)
+            {
+                var dependenciesList = GetOrCreateDependenciesList(dependantPropertyName);
+                if (!dependenciesList.Contains(dependencyPropertyName))
+                {
+                    dependenciesList.Add(dependencyPropertyName);
                 }
             }
         }
