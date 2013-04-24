@@ -24,7 +24,7 @@ namespace SpiritMVVM.ViewModels
         public TModel Model
         {
             get { return _model; }
-            set { Set(ref _model, value, (x, y) => OnModelChanged(x, y)); }
+            set { Set(ref _model, value, OnModelChanged); }
         }
 
         /// <summary>
@@ -58,7 +58,7 @@ namespace SpiritMVVM.ViewModels
             // Assign the value directly to the backing store,
             // because we do not want to invoke OnModelChanged
             // when assigning the default value.
-            _model = model;
+            Model = model;
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace SpiritMVVM.ViewModels
             // Assign the value directly to the backing store,
             // because we do not want to invoke OnModelChanged
             // when assigning the default value.
-            _model = model;
+            Model = model;
         }
 
         /// <summary>
