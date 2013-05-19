@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Linq.Expressions;
+using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
 {
@@ -30,6 +32,17 @@ namespace SpiritMVVM
         }
 
         /// <summary>
+        /// Add an error description, associated with the given property.
+        /// </summary>
+        /// <typeparam name="TProperty">The type of the target property.</typeparam>
+        /// <param name="propertyExpression">An expression referencing the target property.</param>
+        /// <param name="error">The error to add.</param>
+        public void AddError<TProperty>(Expression<Func<TProperty>> propertyExpression, object error)
+        {
+            AddError(propertyExpression.PropertyName(), error);
+        }
+
+        /// <summary>
         /// Add an error description, associated with the given property name.
         /// </summary>
         /// <param name="propertyName">The name of the invalid property.</param>
@@ -42,6 +55,17 @@ namespace SpiritMVVM
                 currentErrors.Add(error);
             }
             RaiseErrorsChanged(propertyName);
+        }
+
+        /// <summary>
+        /// Add multiple error descriptions, associated with the given property.
+        /// </summary>
+        /// <typeparam name="TProperty">The type of the target property.</typeparam>
+        /// <param name="propertyExpression">An expression referencing the target property.</param>
+        /// <param name="errors">The errors to add.</param>
+        public void AddErrors<TProperty>(Expression<Func<TProperty>> propertyExpression, IEnumerable<object> errors)
+        {
+            AddErrors(propertyExpression.PropertyName(), errors);
         }
 
         /// <summary>
@@ -98,6 +122,7 @@ namespace SpiritMVVM
                 }
             }
 
+            //Delay the ErrorsChanged event until we've released the lock
             if (notificationRequired)
             {
                 RaiseErrorsChanged(string.Empty);

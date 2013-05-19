@@ -122,7 +122,10 @@ namespace SpiritMVVM
         /// <param name="backingStore">The backing field for the property.</param>
         /// <param name="newValue">The new value to assign.</param>
         /// <param name="onChangedCallback">The optional callback to execute if the value changed.</param>
-        /// <param name="targetPropertyName">The name of the property being set.</param>
+        /// <param name="targetPropertyName">
+        /// The name of the property being set.
+        /// Uses <see cref="CallerMemberNameAttribute"/> to automatically populate the value with the caller's name.
+        /// </param>
         protected void Set<TProperty>(ref TProperty backingStore, TProperty newValue, Action<TProperty, TProperty> onChangedCallback = null, [CallerMemberName] string targetPropertyName = "")
         {
             PropertyNotifier.SetProperty(ref backingStore, newValue, onChangedCallback, targetPropertyName);
@@ -138,7 +141,10 @@ namespace SpiritMVVM
         /// <param name="backingStore">The backing field for the property.</param>
         /// <param name="newValue">The new value to assign.</param>
         /// <param name="onChangedCallback">The optional callback to execute if the value changed.</param>
-        /// <param name="targetPropertyName">The name of the property being set.</param>
+        /// <param name="targetPropertyName">
+        /// The name of the property being set.
+        /// Uses <see cref="CallerMemberNameAttribute"/> to automatically populate the value with the caller's name.
+        /// </param>
         protected void Set<TProperty>(Accessor<TProperty> backingStore, TProperty newValue, Action<TProperty, TProperty> onChangedCallback = null, [CallerMemberName] string targetPropertyName = "")
         {
             PropertyNotifier.SetProperty(backingStore, newValue, onChangedCallback, targetPropertyName);

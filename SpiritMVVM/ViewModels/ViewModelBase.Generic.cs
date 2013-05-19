@@ -55,9 +55,6 @@ namespace SpiritMVVM.ViewModels
         public ViewModelBase(TModel model)
             : base()
         {
-            // Assign the value directly to the backing store,
-            // because we do not want to invoke OnModelChanged
-            // when assigning the default value.
             Model = model;
         }
 
@@ -72,9 +69,6 @@ namespace SpiritMVVM.ViewModels
         public ViewModelBase(TModel model, IMessenger messenger)
             : base(messenger)
         {
-            // Assign the value directly to the backing store,
-            // because we do not want to invoke OnModelChanged
-            // when assigning the default value.
             Model = model;
         }
 
