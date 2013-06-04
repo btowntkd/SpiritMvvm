@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Reflection;
+using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
 {
@@ -67,6 +69,20 @@ namespace SpiritMVVM
         }
 
         /// <summary>
+        /// Registers an action to be executed any time the given property
+        /// is changed.
+        /// </summary>
+        /// <typeparam name="T">The target property's type.</typeparam>
+        /// <param name="property">The property to monitor
+        /// for changes.</param>
+        /// <param name="action">The action to execute whenever the property
+        /// changes, providing the new property value.</param>
+        public void AddListener<T>(Expression<Func<T>> property, Action<T> action)
+        {
+            AddListener(property.PropertyName(), action);
+        }
+
+        /// <summary>
         /// Remove all registered listeners for the given property name.
         /// </summary>
         /// <param name="propertyName">The name of the property for which
@@ -80,6 +96,17 @@ namespace SpiritMVVM
                     _listeners.Remove(propertyName);
                 }
             }
+        }
+
+        /// <summary>
+        /// Remove all registered listeners for the given property name.
+        /// </summary>
+        /// <typeparam name="T">The target property's type.</typeparam>
+        /// <param name="property">The property for which
+        /// to remove all listeners.</param>
+        public void RemoveListeners<T>(Expression<Func<T>> property)
+        {
+            RemoveListeners(property.PropertyName());
         }
 
         #endregion

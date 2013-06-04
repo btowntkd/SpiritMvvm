@@ -350,6 +350,8 @@ namespace SpiritMVVM
 
         /// <summary>
         /// Adds a property dependency mapping to the map.
+        /// When adding a property dependency, the parameters construct the sentence:
+        /// "Argument 1 depends on Argument2."
         /// </summary>
         /// <param name="dependantPropertyName">The target (dependant) property.</param>
         /// <param name="dependencyPropertyName">The property on which the target property depends.</param>
