@@ -9,7 +9,7 @@ namespace SpiritMVVM
 {
     /// <summary>
     /// A utility class which listens for <see cref="INotifyPropertyChanged.PropertyChanged"/> events
-    /// on a target object, and executes a given callback whenever the <see cref="INotifyPropertyChanged.PropertyChanged"/>
+    /// on a target object, and executes a specified callback whenever the <see cref="INotifyPropertyChanged.PropertyChanged"/>
     /// event is raised for a specific, registered property name.
     /// </summary>
     public class PropertyListener : IPropertyListener
@@ -27,7 +27,7 @@ namespace SpiritMVVM
 
         /// <summary>
         /// Create a new instance of the <see cref="PropertyListener"/>
-        /// with the given <see cref="INotifyPropertyChanged"/> target object
+        /// with the specified <see cref="INotifyPropertyChanged"/> target object
         /// to listen for changes.
         /// </summary>
         /// <param name="parentObject"></param>
@@ -45,7 +45,7 @@ namespace SpiritMVVM
         #region Public Methods
 
         /// <summary>
-        /// Registers an action to be executed any time the given property
+        /// Registers an action to be executed any time the specified property
         /// is changed.
         /// </summary>
         /// <typeparam name="T">The target property's type.</typeparam>
@@ -69,7 +69,7 @@ namespace SpiritMVVM
         }
 
         /// <summary>
-        /// Registers an action to be executed any time the given property
+        /// Registers an action to be executed any time the specified property
         /// is changed.
         /// </summary>
         /// <typeparam name="T">The target property's type.</typeparam>
@@ -83,7 +83,7 @@ namespace SpiritMVVM
         }
 
         /// <summary>
-        /// Remove all registered listeners for the given property name.
+        /// Remove all registered listeners for the specified property name.
         /// </summary>
         /// <param name="propertyName">The name of the property for which
         /// to remove all listeners.</param>
@@ -99,7 +99,7 @@ namespace SpiritMVVM
         }
 
         /// <summary>
-        /// Remove all registered listeners for the given property name.
+        /// Remove all registered listeners for the specified property.
         /// </summary>
         /// <typeparam name="T">The target property's type.</typeparam>
         /// <param name="property">The property for which
@@ -114,7 +114,7 @@ namespace SpiritMVVM
         #region Protected Methods
 
         /// <summary>
-        /// Executes every subscribed action for the given property name.
+        /// Executes every subscribed action for the specified property name.
         /// </summary>
         /// <param name="propertyName">The name of the property for which to execute all subscribed actions.</param>
         protected void ExecuteListenerActions(string propertyName)
