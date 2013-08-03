@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpiritMVVM.Utils;
+using System.Threading.Tasks;
 
 namespace SpiritMVVM.Test
 {
@@ -80,28 +81,6 @@ namespace SpiritMVVM.Test
                 + " but it was executed before the value was changed.");
         }
 
-        ////Unit test removed because INotifyPropertyChanging doesn't exist in PCL yet.
-        //[TestMethod]
-        //public void Set_WithRefArgument_Changed_ExecutesPropertyChangingAction_BeforeChange()
-        //{
-        //    bool notifierExecuted = false;
-        //    int oldValue = 0;
-        //    int backingStore = oldValue;
-        //    int newValue = 12;
-        //    int propertyChangingActionValue = 0;
-        //    PropertyNotifier notifier = new PropertyNotifier((propName) => { /* Do nothing */ },
-        //        (propName) =>
-        //        {
-        //            propertyChangingActionValue = backingStore;
-        //            notifierExecuted = true;
-        //        });
-
-        //    notifier.SetProperty(ref backingStore, newValue);
-
-        //    Assert.IsTrue(notifierExecuted, "Expected notifier delegate to be executed.");
-        //    Assert.AreEqual(propertyChangingActionValue, oldValue, "Expected PropertyChanging action to be executed before the value was changed.");
-        //}
-
         /// <summary>
         /// Ensures that the instance-wide PropertyChanged Action is not called, if the property is not changed.
         /// </summary>
@@ -120,24 +99,6 @@ namespace SpiritMVVM.Test
 
             Assert.IsFalse(notifierExecuted, "Did not expect PropertyChanged action to be executed.");
         }
-
-        ////Unit test removed because INotifyPropertyChanging doesn't exist in PCL yet.
-        //[TestMethod]
-        //public void Set_WithRefArgument_NotChanged_DoesNotExecutePropertyChangingAction()
-        //{
-        //    bool notifierExecuted = false;
-        //    PropertyNotifier notifier = new PropertyNotifier((propName) => { },
-        //        (propName) =>
-        //        {
-        //            notifierExecuted = true;
-        //        });
-
-        //    int backingStore = 0;
-        //    int newValue = 0;
-        //    notifier.SetProperty(ref backingStore, newValue);
-
-        //    Assert.IsFalse(notifierExecuted, "Did not expect PropertyChanging action to be executed.");
-        //}
 
         /// <summary>
         /// Ensures that when the instance-wide propertyChanged Action is executed, it is provided with the
@@ -159,6 +120,31 @@ namespace SpiritMVVM.Test
             notifier.SetProperty(ref backingStore, newValue, null, expectedPropertyName);
 
             Assert.AreEqual(expectedPropertyName, receivedPropertyName, "Property names do not match.");
+        }
+
+        /// <summary>
+        /// Ensures that the <see cref="PropertyNotifier"/> can execute the callback,
+        /// even if the "Set" method is called from another thread.
+        /// </summary>
+        [TestMethod]
+        public void Set_WithRefArgument_ChangedOnDifferentThread_ExecutesCallback()
+        {
+            bool notifierExecuted = false;
+            int backingStore = 0;
+            int newValue = 12;
+            int propertyChangedActionValue = 0;
+            PropertyNotifier notifier = new PropertyNotifier((propName) =>
+            {
+                propertyChangedActionValue = backingStore;
+                notifierExecuted = true;
+            });
+
+            Task.Factory.StartNew(() => notifier.SetProperty(ref backingStore, newValue)).Wait();
+            
+            Assert.IsTrue(notifierExecuted, "Expected notifier delegate to be executed.");
+            Assert.AreEqual(propertyChangedActionValue, newValue, 
+                "Expected PropertyChanged action to be executed after the value was changed,"
+                + " but it was executed before the value was changed.");
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System.Threading.Tasks;
 
 namespace SpiritMVVM.Test
 {
@@ -90,6 +91,23 @@ namespace SpiritMVVM.Test
                     It.IsAny<Action<int, int>>(), 
                     It.IsAny<string>()), 
                 Moq.Times.Once());
+        }
+
+        /// <summary>
+        /// Ensures that a property can be changed from a different thread.
+        /// </summary>
+        [TestMethod]
+        public void Set_FromDifferentThread_CallsPropertyNotifier()
+        {
+            ObservableTestObject testObj = new ObservableTestObject();
+            bool eventRaised = false;
+            testObj.PropertyChanged += (obj, args) =>
+            {
+                eventRaised = true;
+            };
+            Task.Factory.StartNew(() => testObj.TestPropertyWithRef = 12, TaskCreationOptions.LongRunning).Wait();
+
+            Assert.IsTrue(eventRaised, "Expected event was not raised");
         }
 
         /// <summary>
