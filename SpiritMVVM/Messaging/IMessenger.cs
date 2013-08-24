@@ -34,12 +34,12 @@ namespace SpiritMVVM.Messaging
         /// <param name="recipientToken">The object to use as a key when
         /// unsubscribing from the message at a later time, and when keeping
         /// track of object lifetime using <see cref="WeakReference"/>s.</param>
-        /// <param name="receieveDerivedMessages">Indicates the subscriber's
+        /// <param name="receiveDerivedMessages">Indicates the subscriber's
         /// desire to receieve or not receieve message which are derived
         /// from the subscribed message type.</param>
         /// <param name="action">The message handler to execute whenever
         /// the appropriate message type is sent.</param>
-        void Subscribe<TMessage>(object recipientToken, bool receieveDerivedMessages, Action<TMessage> action)
+        void Subscribe<TMessage>(object recipientToken, bool receiveDerivedMessages, Action<TMessage> action)
             where TMessage : IMessage;
 
         /// <summary>
