@@ -26,7 +26,6 @@ namespace SpiritMVVM.Messaging
         /// </summary>
         /// <param name="sender">The object which originated the message.</param>
         public Message(object sender)
-            : this()
         {
             Sender = sender;
         }
