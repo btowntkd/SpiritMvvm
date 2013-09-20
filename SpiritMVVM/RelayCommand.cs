@@ -15,7 +15,7 @@ namespace SpiritMVVM
         private readonly Func<bool> _canExecute;
         private readonly Action _execute;
 
-        #endregion
+        #endregion Private Fields
 
         #region Constructors
 
@@ -44,7 +44,7 @@ namespace SpiritMVVM
             _canExecute = canExecute;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region ICommand Implementation
 
@@ -82,7 +82,7 @@ namespace SpiritMVVM
             }
         }
 
-        #endregion
+        #endregion ICommand Implementation
 
         #region IRaiseCanExecuteChanged Implementation
 
@@ -98,7 +98,7 @@ namespace SpiritMVVM
             }
         }
 
-        #endregion
+        #endregion IRaiseCanExecuteChanged Implementation
 
         #region IReactOnDependencyChanged Implementation
 
@@ -111,6 +111,6 @@ namespace SpiritMVVM
             RaiseCanExecuteChanged();
         }
 
-        #endregion
+        #endregion IReactOnDependencyChanged Implementation
     }
 }

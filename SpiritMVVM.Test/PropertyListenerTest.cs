@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.ComponentModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SpiritMVVM.Test
 {
@@ -15,11 +15,13 @@ namespace SpiritMVVM.Test
             public event PropertyChangedEventHandler PropertyChanged = null;
 
             private int _testProperty = 0;
-            public int TestProperty 
+
+            public int TestProperty
             {
                 get { return _testProperty; }
                 set { _testProperty = value; RaisePropertyChanged("TestProperty"); }
             }
+
             public void RaisePropertyChanged(string propertyName)
             {
                 var handler = PropertyChanged;

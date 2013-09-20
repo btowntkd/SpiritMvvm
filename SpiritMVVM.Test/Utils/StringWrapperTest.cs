@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpiritMVVM.Utils;
+using System;
 
 namespace SpiritMVVM.Test.Utils
 {
@@ -137,7 +137,7 @@ namespace SpiritMVVM.Test.Utils
                 (x) => { return x.ToString(); });
         }
 
-        #endregion
+        #endregion Constructor Tests
 
         #region Get/Set Value Tests
 
@@ -178,7 +178,7 @@ namespace SpiritMVVM.Test.Utils
             Assert.AreEqual(backingStore, newValue, "Wrapper did not pass value to the Set accessor");
         }
 
-        #endregion
+        #endregion Get/Set Value Tests
 
         #region Get/Set StringValue Tests
 
@@ -219,7 +219,6 @@ namespace SpiritMVVM.Test.Utils
             string actualValue = wrapper.StringValue;
 
             Assert.AreEqual(expectedValue, actualValue, "Expected and Actual values should have been equal");
-            
         }
 
         /// <summary>
@@ -243,7 +242,7 @@ namespace SpiritMVVM.Test.Utils
         }
 
         /// <summary>
-        /// Ensures the StringValue property does not effect the Value property 
+        /// Ensures the StringValue property does not effect the Value property
         /// when assigned an invalid/unparseable string.
         /// </summary>
         [TestMethod]
@@ -265,7 +264,7 @@ namespace SpiritMVVM.Test.Utils
         }
 
         /// <summary>
-        /// Ensures the StringValue property directly assigns the Value property 
+        /// Ensures the StringValue property directly assigns the Value property
         /// when assigned a valid/parseable string.
         /// </summary>
         [TestMethod]
@@ -286,7 +285,7 @@ namespace SpiritMVVM.Test.Utils
             Assert.AreNotEqual(beforeValue, afterValue, "Before/After values should have changed.");
         }
 
-        #endregion
+        #endregion Get/Set StringValue Tests
 
         #region ResetString Tests
 
@@ -313,7 +312,7 @@ namespace SpiritMVVM.Test.Utils
             Assert.IsTrue((toStringDelegateExecutedCount > initialCount), "Expected ToString delegate to be executed when ResetString is called.");
         }
 
-        #endregion
+        #endregion ResetString Tests
 
         #region IsValid Tests
 
@@ -387,6 +386,6 @@ namespace SpiritMVVM.Test.Utils
             Assert.IsTrue(wrapper.IsValid, "Expected IsValid to be true.");
         }
 
-        #endregion
+        #endregion IsValid Tests
     }
 }

@@ -1,5 +1,4 @@
-﻿
-namespace SpiritMVVM.ViewModels
+﻿namespace SpiritMVVM.ViewModels
 {
     /// <summary>
     /// Provides common ViewModel-related functionality, as well as

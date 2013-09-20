@@ -8,13 +8,13 @@ namespace SpiritMVVM.Utils
     ///
     /// Since the referenced item is accessed via Func delegates, the backing value can exist
     /// in a separate object, making this ideal for wrapping a Model's value from within a ViewModel.
-    /// 
+    ///
     /// When the <see cref="StringWrapper{T}.StringValue"/> property is changed, the class will
-    /// attempt to parse its value and convert it into the underlying item's type.  
+    /// attempt to parse its value and convert it into the underlying item's type.
     /// If the attempt is unsuccessful, the IsValid property will be set to "False."
     /// If successful, the <see cref="StringWrapper{T}.IsValid"/> property will be "True."
     /// The referenced item's value will only be updated if the string is successfully parsed.
-    /// 
+    ///
     /// When the backing ref item is changed, the bound String value will automatically be updated
     /// to reflect the newest value.
     /// </summary>
@@ -26,7 +26,7 @@ namespace SpiritMVVM.Utils
         private string _stringValue;
         private bool _isValid;
 
-        #endregion
+        #endregion Private Fields
 
         #region Constructors
 
@@ -45,7 +45,7 @@ namespace SpiritMVVM.Utils
         { }
 
         /// <summary>
-        /// Creates an instance of the <see cref="StringWrapper{T}"/> with the given get/set                           
+        /// Creates an instance of the <see cref="StringWrapper{T}"/> with the given get/set
         /// accessor methods, parse delegate, and ToString delegate.
         /// </summary>
         /// <param name="itemAccessors">The accessors used to get or set the referenced item's value.</param>
@@ -68,7 +68,7 @@ namespace SpiritMVVM.Utils
             ResetString();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Public Properties
 
@@ -127,13 +127,13 @@ namespace SpiritMVVM.Utils
         public bool IsValid
         {
             get { return _isValid; }
-            protected set 
+            protected set
             {
-                _isValid = value; 
+                _isValid = value;
             }
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Public Methods
 
@@ -146,7 +146,7 @@ namespace SpiritMVVM.Utils
             IsValid = true;
         }
 
-        #endregion
+        #endregion Public Methods
 
         #region Protected Properties
 
@@ -165,6 +165,6 @@ namespace SpiritMVVM.Utils
         /// </summary>
         protected Func<string, T> ParseStringMethod { get; set; }
 
-        #endregion
+        #endregion Protected Properties
     }
 }

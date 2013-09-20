@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SpiritMVVM.Test
 {
@@ -39,7 +38,7 @@ namespace SpiritMVVM.Test
             testObj.AddError(expectedPropertyName, "BlahBlahBlah");
 
             Assert.IsTrue(eventRaised, "The ErrorsChanged event was not raised.");
-            Assert.AreEqual(expectedPropertyName, receivedPropertyName, 
+            Assert.AreEqual(expectedPropertyName, receivedPropertyName,
                 "The received PropertyName event argument was not equal"
                 + " to the property name specified in AddError.");
         }
@@ -113,7 +112,7 @@ namespace SpiritMVVM.Test
         }
 
         /// <summary>
-        /// Ensures that ClearErrors will remove all current errors for the 
+        /// Ensures that ClearErrors will remove all current errors for the
         /// specified property name, and *ONLY* for that property.
         /// </summary>
         [TestMethod]
@@ -125,7 +124,7 @@ namespace SpiritMVVM.Test
             const string secondProperty = "MyProperty2";
             var firstError = "BLAH1";
             var secondError = "BLAH2";
-            
+
             //Add 4 errors total - 2 errors for each of 2 properties
             testObj.AddError(firstProperty, firstError);
             testObj.AddError(firstProperty, secondError);
@@ -189,7 +188,7 @@ namespace SpiritMVVM.Test
         }
 
         /// <summary>
-        /// Ensures that ClearErrors will remove all current errors for the 
+        /// Ensures that ClearErrors will remove all current errors for the
         /// specified property name, and *ONLY* for that property.
         /// </summary>
         [TestMethod]
@@ -264,7 +263,7 @@ namespace SpiritMVVM.Test
         }
 
         /// <summary>
-        /// Ensures that GetErrors will return all current errors for the 
+        /// Ensures that GetErrors will return all current errors for the
         /// specified property name, and *ONLY* for that property.
         /// </summary>
         [TestMethod]

@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SpiritMVVM.Test
 {
@@ -94,7 +93,7 @@ namespace SpiritMVVM.Test
             //We expect only a single property to be returned: "DependsOnBasePropertyDirect."
             //All other properties are either not dependant or indirectly dependant.
             Assert.IsTrue(results.Any((x) => x.Name == SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyDirect),
-                "Did not find expected result propertyName: {0}", 
+                "Did not find expected result propertyName: {0}",
                 SimpleClassWithDependantProperties.PropNames.DependsOnBasePropertyDirect);
             Assert.IsTrue(results.Count() == 1, "Received more properties than were expected.");
         }
@@ -116,7 +115,7 @@ namespace SpiritMVVM.Test
                 "Results should not contain the propertyName which was provided as the source");
         }
 
-        #endregion
+        #endregion GetDirectDependants
 
         #region GetAllDependants
 
@@ -185,7 +184,7 @@ namespace SpiritMVVM.Test
                 "Results should not contain the propertyName given as the source.");
         }
 
-        #endregion
+        #endregion GetAllDependants
 
         #region GetDirectDependencies
 
@@ -226,7 +225,7 @@ namespace SpiritMVVM.Test
                 "Results should not contain the propertyName which was provided as the source");
         }
 
-        #endregion
+        #endregion GetDirectDependencies
 
         #region GetAllDependencies
 
@@ -295,6 +294,6 @@ namespace SpiritMVVM.Test
                 "Results should not contain the propertyName given as the source.");
         }
 
-        #endregion
+        #endregion GetAllDependencies
     }
 }

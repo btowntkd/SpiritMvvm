@@ -1,12 +1,12 @@
-﻿using System;
+﻿using SpiritMVVM.PropertyMapping;
+using SpiritMVVM.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using SpiritMVVM.PropertyMapping;
-using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
 {
@@ -22,7 +22,7 @@ namespace SpiritMVVM
         private Dictionary<string, List<string>> _propertyDependencies = new Dictionary<string, List<string>>();
         private object _propertyDependenciesLock = new object();
 
-        #endregion
+        #endregion Private Fields
 
         #region Constructors
 
@@ -33,7 +33,7 @@ namespace SpiritMVVM
         /// </summary>
         public ObservableObject()
         {
-            PropertyNotifier = new PropertyNotifier((propName) => 
+            PropertyNotifier = new PropertyNotifier((propName) =>
             {
                 RaisePropertyChanged(propName);
             });
@@ -44,7 +44,7 @@ namespace SpiritMVVM
         /// Create a new instance of an <see cref="ObservableObject"/>,
         /// with a user-specified <see cref="IPropertyNotifier"/> implementation.
         /// </summary>
-        /// <param name="propertyNotifier">The user-specified 
+        /// <param name="propertyNotifier">The user-specified
         /// <see cref="IPropertyNotifier"/> implementation.</param>
         public ObservableObject(IPropertyNotifier propertyNotifier)
         {
@@ -55,13 +55,13 @@ namespace SpiritMVVM
             ScanForDependsOnAttributes();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Protected Properties
 
         /// <summary>
         /// Get or Set the internally-used <see cref="IPropertyNotifier"/> object.
-        /// This object is used when setting property values via the 
+        /// This object is used when setting property values via the
         /// ObservableObject.Set methods.
         /// </summary>
         protected IPropertyNotifier PropertyNotifier
@@ -76,7 +76,7 @@ namespace SpiritMVVM
             }
         }
 
-        #endregion
+        #endregion Protected Properties
 
         #region Protected Methods
 
@@ -150,7 +150,7 @@ namespace SpiritMVVM
             PropertyNotifier.SetProperty(backingStore, newValue, onChangedCallback, targetPropertyName);
         }
 
-        #endregion
+        #endregion Protected Methods
 
         #region INotifyPropertyChanged
 
@@ -197,7 +197,7 @@ namespace SpiritMVVM
         /// </summary>
         /// <param name="propertyName">The name of the property whose dependants
         /// should be raised.</param>
-        /// <remarks>Dependant properties are any properties marked with the 
+        /// <remarks>Dependant properties are any properties marked with the
         /// <see cref="DependsOnAttribute"/> with the given property named as
         /// the dependency.</remarks>
         private void RaisePropertyChangedDependants(string propertyName)
@@ -215,7 +215,7 @@ namespace SpiritMVVM
             }
         }
 
-        #endregion
+        #endregion INotifyPropertyChanged
 
         #region IMapDependencies
 
@@ -341,7 +341,7 @@ namespace SpiritMVVM
                     .Cast<DependsOnAttribute>()
                     .Select(attribute => attribute.Property);
 
-                foreach(var dependency in dependencies)
+                foreach (var dependency in dependencies)
                 {
                     AddPropertyDependency(property.Name, dependency);
                 }
@@ -367,6 +367,6 @@ namespace SpiritMVVM
             }
         }
 
-        #endregion
+        #endregion IMapDependencies
     }
 }

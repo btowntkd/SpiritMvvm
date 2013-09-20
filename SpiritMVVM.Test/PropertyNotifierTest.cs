@@ -1,7 +1,6 @@
-﻿using System;
-using System.ComponentModel;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpiritMVVM.Utils;
+using System;
 using System.Threading.Tasks;
 
 namespace SpiritMVVM.Test
@@ -52,7 +51,7 @@ namespace SpiritMVVM.Test
             PropertyNotifier notifier = new PropertyNotifier(doNothingAction);
         }
 
-        #endregion
+        #endregion Constructor Tests
 
         #region Set (with ref Argument) Tests
 
@@ -74,9 +73,9 @@ namespace SpiritMVVM.Test
             });
 
             notifier.SetProperty(ref backingStore, newValue);
-            
+
             Assert.IsTrue(notifierExecuted, "Expected notifier delegate to be executed.");
-            Assert.AreEqual(propertyChangedActionValue, newValue, 
+            Assert.AreEqual(propertyChangedActionValue, newValue,
                 "Expected PropertyChanged action to be executed after the value was changed,"
                 + " but it was executed before the value was changed.");
         }
@@ -140,9 +139,9 @@ namespace SpiritMVVM.Test
             });
 
             Task.Factory.StartNew(() => notifier.SetProperty(ref backingStore, newValue)).Wait();
-            
+
             Assert.IsTrue(notifierExecuted, "Expected notifier delegate to be executed.");
-            Assert.AreEqual(propertyChangedActionValue, newValue, 
+            Assert.AreEqual(propertyChangedActionValue, newValue,
                 "Expected PropertyChanged action to be executed after the value was changed,"
                 + " but it was executed before the value was changed.");
         }
@@ -213,7 +212,7 @@ namespace SpiritMVVM.Test
             Assert.AreEqual(expectedNewValue, receivedNewValue, "'New' values do not match.");
         }
 
-        #endregion
+        #endregion Set (with ref Argument) Tests
 
         #region Set (with Accessor<T>) Tests
 
@@ -355,6 +354,6 @@ namespace SpiritMVVM.Test
             Assert.AreEqual(expectedNewValue, receivedNewValue, "'New' values do not match.");
         }
 
-        #endregion
+        #endregion Set (with Accessor<T>) Tests
     }
 }

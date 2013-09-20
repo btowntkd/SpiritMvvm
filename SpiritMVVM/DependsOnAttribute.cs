@@ -17,7 +17,7 @@ namespace SpiritMVVM
         /// <summary>
         /// String used to specify a "Wild Card" dependency.
         /// Assigning the wild card as a dependency means that
-        /// the attributed property's value is dependant on all
+        /// the attributed property's value is dependent on all
         /// other properties in the class.
         /// </summary>
         public const string WildCard = "*";
@@ -28,23 +28,23 @@ namespace SpiritMVVM
         /// Creates a new <see cref="DependsOnAttribute"/> with the given property name as a dependency.
         /// </summary>
         /// <param name="property">
-        /// The name of the property on which the current property is dependant.
+        /// The name of the property on which the current property is dependent.
         /// </param>
         public DependsOnAttribute(String property)
         {
             this.Property = property;
         }
 
-        #endregion
+        #endregion Constructor
 
         #region Public Properties
 
         /// <summary>
-        /// The property on which the attributed property is dependant.
+        /// The property on which the attributed property is dependent.
         /// </summary>
         public String Property { get; private set; }
 
-        #endregion
+        #endregion Public Properties
 
         #region Public Static Methods
 
@@ -55,10 +55,10 @@ namespace SpiritMVVM
         /// </summary>
         /// <param name="targetType">The Type in which the properties reside.</param>
         /// <param name="propertyName">
-        /// The name of the property for which to collect all directly-dependant properties.
+        /// The name of the property for which to collect all directly-dependent properties.
         /// </param>
         /// <returns>
-        /// Returns a list of all properties which are directly dependant on the given property name.
+        /// Returns a list of all properties which are directly dependent on the given property name.
         /// </returns>
         public static IEnumerable<PropertyInfo> GetDirectDependants(Type targetType, string propertyName)
         {
@@ -73,17 +73,17 @@ namespace SpiritMVVM
         /// <summary>
         /// Recursively gathers the list of all properties which depend
         /// on the provided property, whether directly or indirectly.
-        /// Each dependant property will only be included once, so
-        /// multiple or circular dependencies will not result in multiple 
+        /// Each dependent property will only be included once, so
+        /// multiple or circular dependencies will not result in multiple
         /// <see cref="INotifyPropertyChanged.PropertyChanged"/> events.
         /// </summary>
         /// <param name="targetType">The object in which the properties reside.</param>
         /// <param name="propertyName">
-        /// The name of the property for which to collect all dependant properties.
+        /// The name of the property for which to collect all dependent properties.
         /// </param>
         /// <returns>
         /// Returns the list of all properties which are directly or
-        /// indirectly dependant on the original property.
+        /// indirectly dependent on the original property.
         /// </returns>
         public static IEnumerable<PropertyInfo> GetAllDependants(Type targetType, string propertyName)
         {
@@ -140,7 +140,7 @@ namespace SpiritMVVM
         }
 
         /// <summary>
-        /// Recursively gathers the list of all properties on which the specified 
+        /// Recursively gathers the list of all properties on which the specified
         /// property depends, whether directly or indirectly.
         /// </summary>
         /// <param name="targetType">The object in which the properties reside.</param>
@@ -178,6 +178,6 @@ namespace SpiritMVVM
             return results.Where(x => (x.Name != propertyName));
         }
 
-        #endregion
+        #endregion Public Static Methods
     }
 }

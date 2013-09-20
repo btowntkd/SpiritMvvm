@@ -9,11 +9,11 @@ namespace SpiritMVVM.Test.ViewModels
     /// <summary>
     /// Unit tests for the <see cref="ViewModelBase{T}"/> class.
     /// </summary>
-	[TestClass]
-	public class ViewModelBaseTestGeneric
-	{
+    [TestClass]
+    public class ViewModelBaseTestGeneric
+    {
         /// <summary>
-        /// Ensures that the default constructor will assign the expected default values to 
+        /// Ensures that the default constructor will assign the expected default values to
         /// the Model and Messenger properties.
         /// </summary>
         [TestMethod]
@@ -25,7 +25,7 @@ namespace SpiritMVVM.Test.ViewModels
         }
 
         /// <summary>
-        /// Ensures that the constructor with a messenger parameter will assign the expected default value to 
+        /// Ensures that the constructor with a messenger parameter will assign the expected default value to
         /// the Model property, and assign the provided value to the Messenger property.
         /// </summary>
         [TestMethod]
@@ -38,7 +38,7 @@ namespace SpiritMVVM.Test.ViewModels
         }
 
         /// <summary>
-        /// Ensures that the constructor with a model parameter will assign the expected default value to 
+        /// Ensures that the constructor with a model parameter will assign the expected default value to
         /// the Messenger property, and assign the provided value to the Model property.
         /// </summary>
         [TestMethod]
@@ -127,7 +127,7 @@ namespace SpiritMVVM.Test.ViewModels
         }
 
         /// <summary>
-        /// Ensures that assigning a new value to the Model property will result 
+        /// Ensures that assigning a new value to the Model property will result
         /// in execution of the <see cref="ViewModelBase{T}.OnModelChanged"/> method.
         /// </summary>
         [TestMethod]
@@ -140,5 +140,5 @@ namespace SpiritMVVM.Test.ViewModels
             viewModelMock.Protected().Setup("OnModelChanged", ItExpr.IsAny<object>(), ItExpr.IsAny<object>());
             viewModelMock.Protected().Verify("OnModelChanged", Times.Once(), ItExpr.IsAny<object>(), ItExpr.IsAny<object>());
         }
-	}
+    }
 }

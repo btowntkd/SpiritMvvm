@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SpiritMVVM.PropertyMapping
 {
     /// <summary>
-    /// Defines an interface through which an object can track its properties' 
+    /// Defines an interface through which an object can track its properties'
     /// Change-tracking dependencies.
     /// </summary>
     internal interface IMapDependencies

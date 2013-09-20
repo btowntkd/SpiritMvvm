@@ -8,8 +8,8 @@ namespace SpiritMVVM.ViewModels
     /// </summary>
     /// <remarks>
     /// The <see cref="ViewModelBase"/> class provides an <see cref="OnMessengerChanged"/>
-    /// method to override, allowing users to unsubscribe from the old 
-    /// <see cref="IMessenger"/> instance and subscribe to the new 
+    /// method to override, allowing users to unsubscribe from the old
+    /// <see cref="IMessenger"/> instance and subscribe to the new
     /// <see cref="IMessenger"/> instance.
     /// </remarks>
     public abstract class ViewModelBase : ObservableObject, IViewModel
@@ -42,7 +42,7 @@ namespace SpiritMVVM.ViewModels
         {
             // Assign the value to the property wrapper,
             // to ensure that the "OnMessengerChanged" method is called.
-            Messenger = messenger; 
+            Messenger = messenger;
         }
 
         /// <summary>
@@ -54,7 +54,6 @@ namespace SpiritMVVM.ViewModels
         /// <param name="newValue">The new value of <see cref="ViewModelBase.Messenger"/>.</param>
         protected virtual void OnMessengerChanged(IMessenger oldValue, IMessenger newValue)
         {
-
         }
     }
 }

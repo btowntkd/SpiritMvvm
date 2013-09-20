@@ -1,6 +1,6 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
+using System;
 using System.Threading.Tasks;
 
 namespace SpiritMVVM.Test
@@ -24,6 +24,7 @@ namespace SpiritMVVM.Test
             }
 
             private int _testPropertyWithRef = 0;
+
             public int TestPropertyWithRef
             {
                 get { return _testPropertyWithRef; }
@@ -31,7 +32,7 @@ namespace SpiritMVVM.Test
             }
 
             private object _testDependantProperty = null;
-            
+
             [DependsOn("TestPropertyWithRef")]
             public object TestDependantProperty
             {
@@ -40,6 +41,7 @@ namespace SpiritMVVM.Test
             }
 
             private object _testFluentDependantProperty = null;
+
             public object TestFluentDependantProperty
             {
                 get { return _testFluentDependantProperty; }
@@ -84,12 +86,12 @@ namespace SpiritMVVM.Test
             testObj.TestPropertyWithRef = 12;
 
             var intRef = It.IsAny<int>();
-            mockNotifier.Verify((x) => 
+            mockNotifier.Verify((x) =>
                 x.SetProperty<int>(
-                    ref intRef, 
-                    It.IsAny<int>(), 
-                    It.IsAny<Action<int, int>>(), 
-                    It.IsAny<string>()), 
+                    ref intRef,
+                    It.IsAny<int>(),
+                    It.IsAny<Action<int, int>>(),
+                    It.IsAny<string>()),
                 Moq.Times.Once());
         }
 
@@ -124,9 +126,7 @@ namespace SpiritMVVM.Test
             testObj.TestDependantProperty = onDependencyChanged.Object;
             testObj.TestPropertyWithRef = 12;
 
-
             Assert.IsTrue(callbackExecuted, "Expected OnDependencyChanged callback to be executed.");
-
         }
 
         /// <summary>
@@ -145,7 +145,6 @@ namespace SpiritMVVM.Test
                     eventRaised = true;
             };
             testObj.TestPropertyWithRef = 12;
-
 
             Assert.IsTrue(eventRaised, "Expected PropertyChanged event to be raised for directly-dependant property.");
         }

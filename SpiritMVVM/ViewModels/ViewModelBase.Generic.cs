@@ -15,7 +15,6 @@ namespace SpiritMVVM.ViewModels
     /// <typeparam name="TModel">The type of the underlying ViewModel.</typeparam>
     public abstract class ViewModelBase<TModel> : ViewModelBase, IViewModel<TModel>
     {
-
         private TModel _model;
 
         /// <summary>
@@ -48,7 +47,7 @@ namespace SpiritMVVM.ViewModels
         }
 
         /// <summary>
-        /// Constructor which specifies the initial value to 
+        /// Constructor which specifies the initial value to
         /// assign the <see cref="ViewModelBase{T}.Model"/> property.
         /// </summary>
         /// <param name="model">The model to assign.</param>
@@ -59,7 +58,7 @@ namespace SpiritMVVM.ViewModels
         }
 
         /// <summary>
-        /// Constructor which specifies the the initial value to 
+        /// Constructor which specifies the the initial value to
         /// assign the <see cref="ViewModelBase{T}.Model"/> property,
         /// and the <see cref="IMessenger"/> instance to assign the
         /// <see cref="ViewModelBase.Messenger"/> property.
@@ -79,7 +78,6 @@ namespace SpiritMVVM.ViewModels
         /// <param name="newModel">The new, current model.</param>
         protected virtual void OnModelChanged(TModel oldModel, TModel newModel)
         {
-
         }
     }
 }

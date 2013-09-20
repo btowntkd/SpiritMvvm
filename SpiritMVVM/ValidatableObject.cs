@@ -1,10 +1,10 @@
-﻿using System;
+﻿using SpiritMVVM.Utils;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Linq.Expressions;
-using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
 {
@@ -18,7 +18,7 @@ namespace SpiritMVVM
         private readonly object _propertyErrorsAccessLock = new object();
         private Dictionary<string, List<object>> _propertyErrorListPairs = new Dictionary<string, List<object>>();
 
-        #endregion
+        #endregion Private Fields
 
         #region IValidatableObject Implementation
 
@@ -129,7 +129,7 @@ namespace SpiritMVVM
             }
         }
 
-        #endregion
+        #endregion IValidatableObject Implementation
 
         #region INotifyDataErrorInfo Implementation
 
@@ -163,7 +163,7 @@ namespace SpiritMVVM
             get { return (GetFlattenedListOfAllErrors().Count > 0); }
         }
 
-        #endregion
+        #endregion INotifyDataErrorInfo Implementation
 
         #region Protected Methods
 
@@ -174,13 +174,13 @@ namespace SpiritMVVM
         protected virtual void RaiseErrorsChanged(string propertyName)
         {
             var handler = ErrorsChanged;
-            if(handler != null)
+            if (handler != null)
             {
                 handler(this, new DataErrorsChangedEventArgs(propertyName));
             }
         }
 
-        #endregion
+        #endregion Protected Methods
 
         #region Private Methods
 
@@ -220,6 +220,6 @@ namespace SpiritMVVM
             return flattenedErrors;
         }
 
-        #endregion
+        #endregion Private Methods
     }
 }

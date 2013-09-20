@@ -1,5 +1,5 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace SpiritMVVM.Test
 {
@@ -88,7 +88,7 @@ namespace SpiritMVVM.Test
         public void Execute_WithAction_ExecutesDelegateAction()
         {
             bool actionExecuted = false;
-            RelayCommand command = new RelayCommand(new Action(() => 
+            RelayCommand command = new RelayCommand(new Action(() =>
             {
                 actionExecuted = true;
             }));

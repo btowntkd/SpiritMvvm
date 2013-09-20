@@ -1,14 +1,14 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace SpiritMVVM.Test
 {
     /// <summary>
     /// Unit tests for the <see cref="RelayCommand{T}"/> class.
     /// </summary>
-	[TestClass]
-	public class RelayCommandTestGeneric
-	{
+    [TestClass]
+    public class RelayCommandTestGeneric
+    {
         /// <summary>
         /// Ensures that the constructor will fail with a <see cref="ArgumentNullException"/>
         /// when an Execute Action is not provided.
@@ -39,7 +39,6 @@ namespace SpiritMVVM.Test
         {
             RelayCommand<object> command = new RelayCommand<object>(new Action<object>((x) => { /* Do nothing */ }));
         }
-
 
         /// <summary>
         /// Ensures that the CanExecute method will default to "True" when no predicate is provided in the constructor.
@@ -74,7 +73,7 @@ namespace SpiritMVVM.Test
         {
             object parameter = new object();
             RelayCommand<object> command = new RelayCommand<object>(new Action<object>((x) => { /* Do nothing */ }),
-                new Func<object, bool>((x) => 
+                new Func<object, bool>((x) =>
                 {
                     Assert.AreEqual(parameter, x, "Expected parameter and predicate argument to be equal");
                     return true;
@@ -130,5 +129,5 @@ namespace SpiritMVVM.Test
 
             command.Execute(parameter);
         }
-	}
+    }
 }

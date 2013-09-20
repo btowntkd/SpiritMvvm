@@ -17,7 +17,7 @@ namespace SpiritMVVM.ViewModels
         private RelayCommand _selectCommand;
         private RelayCommand _deselectCommand;
 
-        #endregion
+        #endregion Private Members
 
         #region Constructors
 
@@ -50,7 +50,7 @@ namespace SpiritMVVM.ViewModels
             this.IsSelected = isSelected;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Public Properties
 
@@ -72,7 +72,7 @@ namespace SpiritMVVM.ViewModels
             set { Set(ref _item, value); }
         }
 
-        #endregion
+        #endregion Public Properties
 
         #region Commands
 
@@ -87,7 +87,7 @@ namespace SpiritMVVM.ViewModels
                 if (_selectCommand == null)
                 {
                     _selectCommand = new RelayCommand(
-                        () => { IsSelected = true; }, 
+                        () => { IsSelected = true; },
                         () => !IsSelected);
                 }
                 return _selectCommand;
@@ -105,13 +105,13 @@ namespace SpiritMVVM.ViewModels
                 if (_deselectCommand == null)
                 {
                     _deselectCommand = new RelayCommand(
-                        () => { IsSelected = false; }, 
+                        () => { IsSelected = false; },
                         () => IsSelected);
                 }
                 return _deselectCommand;
             }
         }
 
-        #endregion
+        #endregion Commands
     }
 }

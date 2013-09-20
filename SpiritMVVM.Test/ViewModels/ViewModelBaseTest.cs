@@ -30,7 +30,7 @@ namespace SpiritMVVM.Test.ViewModels
         public void Constructor_WithMessenger_AssignsMessengerValue()
         {
             IMessenger messenger = new Messenger();
-            Mock<ViewModelBase> viewModelMock = new Mock<ViewModelBase>(new object[]{ messenger });
+            Mock<ViewModelBase> viewModelMock = new Mock<ViewModelBase>(new object[] { messenger });
             Assert.AreEqual(viewModelMock.Object.Messenger, messenger, "Expected Messenger to match the provided constructor argument.");
         }
 
@@ -72,7 +72,7 @@ namespace SpiritMVVM.Test.ViewModels
         }
 
         /// <summary>
-        /// Ensures that assigning a new value to the <see cref="ViewModelBase.Messenger"/> property will result 
+        /// Ensures that assigning a new value to the <see cref="ViewModelBase.Messenger"/> property will result
         /// in execution of the <see cref="ViewModelBase.OnMessengerChanged"/> method.
         /// </summary>
         [TestMethod]

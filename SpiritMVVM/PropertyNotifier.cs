@@ -43,7 +43,7 @@ namespace SpiritMVVM
         /// change notification delegate) if the new value is assigned, providing the
         /// old value and new value as arguments, in that order.</param>
         /// <param name="propertyName">The name of the property being changed.  Defaults
-        /// to the name of the calling member.  Leave this argument blank if called 
+        /// to the name of the calling member.  Leave this argument blank if called
         /// from within the property's "Set" method, and the compiler will automatically
         /// pass the correct property name.</param>
         public void SetProperty<T>(ref T backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")
@@ -78,7 +78,7 @@ namespace SpiritMVVM
         /// change notification delegate) if the new value is assigned, providing the
         /// old value and new value as arguments, in that order.</param>
         /// <param name="propertyName">The name of the property being changed.  Defaults
-        /// to the name of the calling member.  Leave this argument blank if called 
+        /// to the name of the calling member.  Leave this argument blank if called
         /// from within the property's "Set" method, and the compiler will automatically
         /// pass the correct property name.</param>
         public void SetProperty<T>(Accessor<T> backingStore, T newValue, Action<T, T> onChangedCallback = null, [CallerMemberName] string propertyName = "")

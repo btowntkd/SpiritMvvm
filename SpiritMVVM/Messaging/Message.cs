@@ -1,5 +1,4 @@
-﻿
-namespace SpiritMVVM.Messaging
+﻿namespace SpiritMVVM.Messaging
 {
     /// <summary>
     /// Base class for decoupled messages using the <see cref="IMessenger"/> interface.

@@ -17,13 +17,13 @@ namespace SpiritMVVM.Messaging
         private readonly object _subscriptionLock = new object();
         private Dictionary<Type, List<IMessageSubscription>> _subscriptionsByType;
 
-        #endregion
+        #endregion Private Fields
 
         #region Static Default
 
         private static object _creationLock = new object();
         private static IMessenger _default;
-        
+
         /// <summary>
         /// Get a default instance of the <see cref="Messenger"/> class.
         /// </summary>
@@ -45,7 +45,7 @@ namespace SpiritMVVM.Messaging
             }
         }
 
-        #endregion
+        #endregion Static Default
 
         #region Constructors
 
@@ -57,7 +57,7 @@ namespace SpiritMVVM.Messaging
             _subscriptionsByType = new Dictionary<Type, List<IMessageSubscription>>();
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Public Methods
 
@@ -140,8 +140,8 @@ namespace SpiritMVVM.Messaging
                 if (_subscriptionsByType.TryGetValue(messageType, out currentSubscriptions))
                 {
                     var toRemoveList = (from sub in currentSubscriptions
-                                       where object.ReferenceEquals(sub.RecipientToken, recipientToken)
-                                       select sub).ToList();
+                                        where object.ReferenceEquals(sub.RecipientToken, recipientToken)
+                                        select sub).ToList();
 
                     foreach (var sub in toRemoveList)
                     {
@@ -183,7 +183,7 @@ namespace SpiritMVVM.Messaging
             return Task.Run(() => Send<TMessage>(message));
         }
 
-        #endregion
+        #endregion Public Methods
 
         #region Protected Methods
 
@@ -222,8 +222,8 @@ namespace SpiritMVVM.Messaging
                 foreach (var subscriptionList in _subscriptionsByType.Values)
                 {
                     var toRemoveList = (from sub in subscriptionList
-                                       where !sub.IsSubscriberAlive
-                                       select sub).ToList();
+                                        where !sub.IsSubscriberAlive
+                                        select sub).ToList();
 
                     foreach (var sub in toRemoveList)
                     {
@@ -233,7 +233,7 @@ namespace SpiritMVVM.Messaging
             }
         }
 
-        #endregion
+        #endregion Protected Methods
 
         /// <summary>
         /// Internal interface use for storing subscription information
@@ -284,7 +284,7 @@ namespace SpiritMVVM.Messaging
             private WeakReference _recipientToken;
             private bool _allowDerivedTypes;
 
-            #endregion
+            #endregion Private Fields
 
             #region Public Methods
 
@@ -301,7 +301,7 @@ namespace SpiritMVVM.Messaging
             public MessageSubscription(object recipientToken, Action<TMessage> deliveryAction, bool allowDerivedTypes)
             {
                 _recipientToken = new WeakReference(recipientToken);
-               _deliveryAction = deliveryAction;
+                _deliveryAction = deliveryAction;
                 _allowDerivedTypes = allowDerivedTypes;
             }
 
@@ -311,7 +311,7 @@ namespace SpiritMVVM.Messaging
             /// <param name="message">The message to deliver.</param>
             public void DeliverMessage(IMessage message)
             {
-                if(_deliveryAction != null)
+                if (_deliveryAction != null)
                     _deliveryAction((TMessage)message);
             }
 
@@ -338,7 +338,7 @@ namespace SpiritMVVM.Messaging
                 return false;
             }
 
-            #endregion
+            #endregion Public Methods
 
             #region Public Properties
 
@@ -372,7 +372,7 @@ namespace SpiritMVVM.Messaging
             private bool IsDerivativeType(Type type)
             {
                 Type desiredType = typeof(TMessage);
-                
+
                 if (type.GetTypeInfo().IsSubclassOf(desiredType))
                     return true;
                 if (type.GetTypeInfo().ImplementedInterfaces.Contains(desiredType))
@@ -381,7 +381,7 @@ namespace SpiritMVVM.Messaging
                 return false;
             }
 
-            #endregion
+            #endregion Public Properties
         }
     }
 }

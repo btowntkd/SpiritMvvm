@@ -1,9 +1,9 @@
-﻿using System;
+﻿using SpiritMVVM.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
-using SpiritMVVM.Utils;
 
 namespace SpiritMVVM
 {
@@ -18,10 +18,11 @@ namespace SpiritMVVM
 
         private readonly WeakReference _weakParentObject;
         private readonly object _listenerLock = new object();
-        private readonly Dictionary<string, List<IListenerAction>> _listeners =
-            new Dictionary<string,List<IListenerAction>>();
 
-        #endregion
+        private readonly Dictionary<string, List<IListenerAction>> _listeners =
+            new Dictionary<string, List<IListenerAction>>();
+
+        #endregion Private Fields
 
         #region Constructors
 
@@ -40,7 +41,7 @@ namespace SpiritMVVM
             parentObject.PropertyChanged += new PropertyChangedEventHandler(parentObject_PropertyChanged);
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Public Methods
 
@@ -109,7 +110,7 @@ namespace SpiritMVVM
             RemoveListeners(property.PropertyName());
         }
 
-        #endregion
+        #endregion Public Methods
 
         #region Protected Methods
 
@@ -143,7 +144,7 @@ namespace SpiritMVVM
             }
         }
 
-        #endregion
+        #endregion Protected Methods
 
         #region Event Handlers
 
@@ -157,7 +158,7 @@ namespace SpiritMVVM
             ExecuteListenerActions(e.PropertyName);
         }
 
-        #endregion
+        #endregion Event Handlers
 
         internal interface IListenerAction
         {
@@ -167,6 +168,7 @@ namespace SpiritMVVM
         internal class ListenerAction<T> : IListenerAction
         {
             private readonly Action<T> _listenerAction;
+
             public ListenerAction(Action<T> listenerAction)
             {
                 _listenerAction = listenerAction;

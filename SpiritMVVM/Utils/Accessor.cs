@@ -29,7 +29,7 @@ namespace SpiritMVVM.Utils
             Setter = setter;
         }
 
-        #endregion
+        #endregion Constructors
 
         #region Public Properties
 
@@ -52,6 +52,6 @@ namespace SpiritMVVM.Utils
         /// </summary>
         public Func<T> Getter { get; private set; }
 
-        #endregion
+        #endregion Public Properties
     }
 }

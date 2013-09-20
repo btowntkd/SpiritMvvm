@@ -1,5 +1,5 @@
-﻿
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
 namespace SpiritMVVM
 {
     /// <summary>

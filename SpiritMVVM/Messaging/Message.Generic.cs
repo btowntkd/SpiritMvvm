@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace SpiritMVVM.Messaging
+﻿namespace SpiritMVVM.Messaging
 {
     /// <summary>
     /// Generic Message type allows users to wrap content.

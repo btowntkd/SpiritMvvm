@@ -1,5 +1,5 @@
-﻿using System.ComponentModel;
-using SpiritMVVM.Messaging;
+﻿using SpiritMVVM.Messaging;
+using System.ComponentModel;
 
 namespace SpiritMVVM
 {

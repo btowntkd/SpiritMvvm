@@ -1,7 +1,7 @@
-﻿using System;
-using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SpiritMVVM.Messaging;
+using System;
+using System.Threading;
 
 namespace SpiritMVVM.Test.Messaging
 {
@@ -13,16 +13,19 @@ namespace SpiritMVVM.Test.Messaging
     {
         internal class BasicMessage : Message
         { }
+
         internal class DerivedMessage : BasicMessage
         { }
+
         internal class UnrelatedMessage : Message
         { }
+
         internal class LargeToken
         {
             private readonly byte[] memoryGuzzler = new byte[100000];
         }
 
-        static readonly object TestLock = new object();
+        private static readonly object TestLock = new object();
 
         /// <summary>
         /// Sets up each unit test and ensures that only one will
@@ -58,7 +61,7 @@ namespace SpiritMVVM.Test.Messaging
         /// </summary>
         [TestMethod]
         public void Subscribe_NullToken_ThrowsArgumentNullException()
-        {          
+        {
             try
             {
                 Messenger messenger = new Messenger();
@@ -132,7 +135,6 @@ namespace SpiritMVVM.Test.Messaging
         [TestMethod]
         public void Send_WithMatchingMessageType_ReceivesSameMessageReference()
         {
-
             BasicMessage sentMessage = new BasicMessage();
             BasicMessage receivedMessage = null;
             Messenger messenger = new Messenger();
@@ -165,7 +167,7 @@ namespace SpiritMVVM.Test.Messaging
         }
 
         /// <summary>
-        /// Ensures that calling "Send" with a derived message will cause a subscriber to 
+        /// Ensures that calling "Send" with a derived message will cause a subscriber to
         /// NOT receive the message, if the subscriber opted to NOT receive derived message types.
         /// </summary>
         [TestMethod]
@@ -184,7 +186,7 @@ namespace SpiritMVVM.Test.Messaging
         }
 
         /// <summary>
-        /// Ensures that calling "Send" with a derived message will cause a subscriber to 
+        /// Ensures that calling "Send" with a derived message will cause a subscriber to
         /// receive the message, if the subscriber opted to receive derived message types.
         /// </summary>
         [TestMethod]

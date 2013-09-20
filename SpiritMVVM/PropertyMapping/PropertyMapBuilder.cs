@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using SpiritMVVM.Utils;
+using System;
 using System.Linq.Expressions;
-using SpiritMVVM.Utils;
 
 namespace SpiritMVVM.PropertyMapping
 {
@@ -18,7 +17,7 @@ namespace SpiritMVVM.PropertyMapping
         {
             if (addDependantAction == null)
                 throw new ArgumentNullException("addDependantAction");
-            
+
             _addDependantAction = addDependantAction;
         }
 
