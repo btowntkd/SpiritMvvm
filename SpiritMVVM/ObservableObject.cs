@@ -217,17 +217,17 @@ namespace SpiritMVVM
         }
 
         /// <summary>
-        /// Raises the "PropertyChanged" event for a given property's dependants.
+        /// Raises the "PropertyChanged" event for a given property's dependents.
         /// The event is not raised for the given property, itself.
         /// </summary>
-        /// <param name="propertyName">The name of the property whose dependants
+        /// <param name="propertyName">The name of the property whose dependents
         /// should be raised.</param>
         /// <remarks>Dependant properties are any properties marked with the
         /// <see cref="DependsOnAttribute"/> with the given property named as
         /// the dependency.</remarks>
         private void RaisePropertyChangedDependants(string propertyName)
         {
-            var dependants = GetDependantsFor(propertyName);
+            var dependants = GetDependentsFor(propertyName);
             foreach (var dependant in dependants)
             {
                 object dependantValue = this.GetType().GetRuntimeProperty(dependant).GetValue(this);
@@ -271,12 +271,12 @@ namespace SpiritMVVM
         /// <summary>
         /// Get the list of all properties which depend on the given property.
         /// </summary>
-        /// <remarks>The resulting list should include indirect dependants
+        /// <remarks>The resulting list should include indirect dependents
         /// as well as direct ones (i.e. if A depends on B, and B depends on C,
-        /// then the list of dependants from C will include both A and B).</remarks>
-        /// <param name="propertyName">The property for which to gather all dependants.</param>
-        /// <returns>Returns the list of all properties which are dependant on the given property.</returns>
-        public IEnumerable<string> GetDependantsFor(string propertyName)
+        /// then the list of dependents from C will include both A and B).</remarks>
+        /// <param name="propertyName">The property for which to gather all dependents.</param>
+        /// <returns>Returns the list of all properties which are dependent on the given property.</returns>
+        public IEnumerable<string> GetDependentsFor(string propertyName)
         {
             IEnumerable<string> oldResults = null;
             IEnumerable<string> results = new[] { propertyName };
@@ -284,13 +284,13 @@ namespace SpiritMVVM
             {
                 oldResults = results;
 
-                var groupDependants = from input in results
-                                      from dependancy in GetDirectDependantsFor(input)
-                                      select dependancy;
+                var groupDependents = from input in results
+                                      from dependent in GetDirectDependentsFor(input)
+                                      select dependent;
 
                 //Create union of current results with "new" results,
                 //making sure to remove duplicates
-                results = results.Union(groupDependants)
+                results = results.Union(groupDependents)
                     .GroupBy(x => x)
                     .Select(grp => grp.First());
             }
@@ -303,23 +303,23 @@ namespace SpiritMVVM
         /// <summary>
         /// Get the list of all properties which depend on the given property.
         /// </summary>
-        /// <remarks>The resulting list should include indirect dependants
+        /// <remarks>The resulting list should include indirect dependents
         /// as well as direct ones (i.e. if A depends on B, and B depends on C,
-        /// then the list of dependants from C will include both A and B).</remarks>
+        /// then the list of dependents from C will include both A and B).</remarks>
         /// <typeparam name="TProperty">The type of the target property.</typeparam>
-        /// <param name="propertyExpression">The property for which to gather all dependants.</param>
-        /// <returns>Returns the list of all properties which are dependant on the given property.</returns>
-        public IEnumerable<string> GetDependantsFor<TProperty>(Expression<Func<TProperty>> propertyExpression)
+        /// <param name="propertyExpression">The property for which to gather all dependents.</param>
+        /// <returns>Returns the list of all properties which are dependent on the given property.</returns>
+        public IEnumerable<string> GetDependentsFor<TProperty>(Expression<Func<TProperty>> propertyExpression)
         {
-            return GetDependantsFor(propertyExpression.PropertyName());
+            return GetDependentsFor(propertyExpression.PropertyName());
         }
 
         /// <summary>
-        /// Get the direct dependants for a given property.
+        /// Get the direct dependents for a given property.
         /// </summary>
-        /// <param name="propertyName">The property for which to collect all direct dependants.</param>
+        /// <param name="propertyName">The property for which to collect all direct dependents.</param>
         /// <returns>Returns a list of all properties which directly depend on the given property.</returns>
-        private IEnumerable<string> GetDirectDependantsFor(string propertyName)
+        private IEnumerable<string> GetDirectDependentsFor(string propertyName)
         {
             lock (_propertyDependenciesLock)
             {
@@ -378,7 +378,7 @@ namespace SpiritMVVM
         /// When adding a property dependency, the parameters construct the sentence:
         /// "Argument 1 depends on Argument2."
         /// </summary>
-        /// <param name="dependantPropertyName">The target (dependant) property.</param>
+        /// <param name="dependantPropertyName">The target (dependent) property.</param>
         /// <param name="dependencyPropertyName">The property on which the target property depends.</param>
         private void AddPropertyDependency(string dependantPropertyName, string dependencyPropertyName)
         {
