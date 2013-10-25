@@ -42,7 +42,6 @@
     <Compile Include="IReactOnDependencyChanged.cs" />
     <Compile Include="IValidatableObject.cs" />
     <Compile Include="IPropertyListener.cs" />
-    <Compile Include="IPropertyNotifier.cs" />
     <Compile Include="Messaging\Message.Generic.cs" />
     <Compile Include="PropertyMapping\IPropertyMapBuilder.cs" />
     <Compile Include="PropertyMapping\IMapDependencies.cs" />
@@ -53,7 +52,6 @@
     <Compile Include="ViewModels\IViewModel.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="PropertyListener.cs" />
-    <Compile Include="PropertyNotifier.cs" />
     <Compile Include="RelayCommand.Generic.cs" />
     <Compile Include="ViewModels\IViewModel.Generic.cs" />
     <Compile Include="ViewModels\SelectionViewModel.cs" />
