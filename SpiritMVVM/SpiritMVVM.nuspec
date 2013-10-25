@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>SpiritMVVM</id>
+        <version>1.0.0</version>
+        <authors>Brian Pratt</authors>
+        <projectUrl>http://spiritmvvm.codeplex.com</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <description>SpiritMVVM is a Model-View-ViewModel library, focused on richness of feature-set and cross-platform compatibility, using the Portable Class Library.  It was designed from the beginning to incorporate many modern features and "niceties" found scattered in other MVVM libraries, but only truly combined here.</description>
+        <summary>SpiritMVVM is a modern MVVM Portable Class Library, supporting .NET 4.5, WP8, and .NET for Windows Store Apps.</summary>
+        <copyright>2013</copyright>
+        <language>en-US</language>
+        <tags>mvvm wpf pcl net45 windows8 win8 winrt windowsphone8 wp8 windowsphone</tags>
+    </metadata>
+    <files>
+        <file src="SpiritMVVM\bin\Release\SpiritMVVM.dll" target="lib\portable-net45+wp8+win8\SpiritMVVM.dll" />
+        <file src="SpiritMVVM\bin\Release\SpiritMVVM.pdb" target="lib\portable-net45+wp8+win8\SpiritMVVM.pdb" />
+        <file src="SpiritMVVM\bin\Release\SpiritMVVM.XML" target="lib\portable-net45+wp8+win8\SpiritMVVM.XML" />
+    </files>
+</package>
