@@ -5,9 +5,9 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("SpiritMVVM")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("SpiritMVVM is a Model-View-ViewModel library, focused on richness of feature-set and cross-platform compatibility, using the Portable Class Library.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Brian Pratt")]
 [assembly: AssemblyProduct("SpiritMVVM")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
@@ -24,5 +24,5 @@ using System.Resources;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.*")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
