@@ -13,8 +13,8 @@
         <tags>mvvm wpf pcl net45 windows8 win8 winrt windowsphone8 wp8 windowsphone</tags>
     </metadata>
     <files>
-        <file src="SpiritMVVM\bin\Release\SpiritMVVM.dll" target="lib\portable-net45+wp8+win8\SpiritMVVM.dll" />
-        <file src="SpiritMVVM\bin\Release\SpiritMVVM.pdb" target="lib\portable-net45+wp8+win8\SpiritMVVM.pdb" />
-        <file src="SpiritMVVM\bin\Release\SpiritMVVM.XML" target="lib\portable-net45+wp8+win8\SpiritMVVM.XML" />
+        <file src="\bin\$configuration$\$id$.dll" target="lib\portable-net45+wp8+win8\$id$.dll" />
+        <file src="\bin\$configuration$\$id$.pdb" target="lib\portable-net45+wp8+win8\$id$.pdb" />
+        <file src="\bin\$configuration$\$id$.XML" target="lib\portable-net45+wp8+win8\$id$.XML" />
     </files>
 </package>
