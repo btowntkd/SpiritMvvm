@@ -40,6 +40,14 @@ namespace SpiritMVVM
         #region Protected Methods
 
         /// <summary>
+        /// Delegate used for notifying a caller that a property's value has changed.
+        /// </summary>
+        /// <typeparam name="TProperty">The property's type.</typeparam>
+        /// <param name="previousValue">The previous value of the property.</param>
+        /// <param name="currentValue">The new, current value of the property.</param>
+        public delegate void PropertyChangedCallback<TProperty>(TProperty previousValue, TProperty currentValue);
+
+        /// <summary>
         /// Assign the given value to the ref backing store field.  If the value changed,
         /// the method will raise the <see cref="ObservableObject.PropertyChanged"/> event,
         /// and will execute the optional provided callback - passing along the old and new values,
@@ -50,7 +58,7 @@ namespace SpiritMVVM
         /// <param name="backingStore">The backing field for the property.</param>
         /// <param name="newValue">The new value to assign.</param>
         /// <param name="onChangedCallback">The optional callback to execute if the value changed.</param>
-        protected void Set<TProperty>(Expression<Func<TProperty>> targetProperty, ref TProperty backingStore, TProperty newValue, Action<TProperty, TProperty> onChangedCallback = null)
+        protected void Set<TProperty>(Expression<Func<TProperty>> targetProperty, ref TProperty backingStore, TProperty newValue, PropertyChangedCallback<TProperty> onChangedCallback = null)
         {
             SetPropertyAndRaiseEvents(targetProperty.PropertyName(), ref backingStore, newValue, onChangedCallback);
         }
@@ -66,7 +74,7 @@ namespace SpiritMVVM
         /// <param name="backingStore">The backing field for the property.</param>
         /// <param name="newValue">The new value to assign.</param>
         /// <param name="onChangedCallback">The optional callback to execute if the value changed.</param>
-        protected void Set<TProperty>(Expression<Func<TProperty>> targetProperty, Accessor<TProperty> backingStore, TProperty newValue, Action<TProperty, TProperty> onChangedCallback = null)
+        protected void Set<TProperty>(Expression<Func<TProperty>> targetProperty, Accessor<TProperty> backingStore, TProperty newValue, PropertyChangedCallback<TProperty> onChangedCallback = null)
         {
             SetPropertyAndRaiseEvents(targetProperty.PropertyName(), backingStore, newValue, onChangedCallback);
         }
@@ -85,7 +93,7 @@ namespace SpiritMVVM
         /// The name of the property being set.
         /// Uses <see cref="CallerMemberNameAttribute"/> to automatically populate the value with the caller's name.
         /// </param>
-        protected void Set<TProperty>(ref TProperty backingStore, TProperty newValue, Action<TProperty, TProperty> onChangedCallback = null, [CallerMemberName] string targetPropertyName = "")
+        protected void Set<TProperty>(ref TProperty backingStore, TProperty newValue, PropertyChangedCallback<TProperty> onChangedCallback = null, [CallerMemberName] string targetPropertyName = "")
         {
             SetPropertyAndRaiseEvents(targetPropertyName, ref backingStore, newValue, onChangedCallback);
         }
@@ -104,7 +112,7 @@ namespace SpiritMVVM
         /// The name of the property being set.
         /// Uses <see cref="CallerMemberNameAttribute"/> to automatically populate the value with the caller's name.
         /// </param>
-        protected void Set<TProperty>(Accessor<TProperty> backingStore, TProperty newValue, Action<TProperty, TProperty> onChangedCallback = null, [CallerMemberName] string targetPropertyName = "")
+        protected void Set<TProperty>(Accessor<TProperty> backingStore, TProperty newValue, PropertyChangedCallback<TProperty> onChangedCallback = null, [CallerMemberName] string targetPropertyName = "")
         {
             SetPropertyAndRaiseEvents(targetPropertyName, backingStore, newValue, onChangedCallback);
         }
@@ -120,19 +128,19 @@ namespace SpiritMVVM
         /// providing the old value and new values to the handler, respectively.
         /// This method will then proceeds to raise the PropertyChanged event for that property.
         /// </summary>
-        /// <typeparam name="T">The type of the property being set.</typeparam>
+        /// <typeparam name="TProperty">The type of the property being set.</typeparam>
         /// <param name="propertyName">The name of the property being changed.</param>
         /// <param name="backingStore">A reference to the backing store for the property.</param>
         /// <param name="newValue">The new value to assign the property, if different.</param>
         /// <param name="onChangedCallback">The callback to execute (aside from the property-
         /// change notification delegate) if the new value is assigned, providing the
         /// old value and new value as arguments, in that order.</param>
-        private void SetPropertyAndRaiseEvents<T>(string propertyName, ref T backingStore, T newValue, Action<T, T> onChangedCallback = null)
+        private void SetPropertyAndRaiseEvents<TProperty>(string propertyName, ref TProperty backingStore, TProperty newValue, PropertyChangedCallback<TProperty> onChangedCallback = null)
         {
-            if (!EqualityComparer<T>.Default.Equals(backingStore, newValue))
+            if (!EqualityComparer<TProperty>.Default.Equals(backingStore, newValue))
             {
                 //Store the old value for the callback
-                T oldValue = backingStore;
+                TProperty oldValue = backingStore;
                 backingStore = newValue;
 
                 //Execute the callback, if one was provided
@@ -151,19 +159,19 @@ namespace SpiritMVVM
         /// providing the old value and new values to the handler, respectively.
         /// This method will then proceeds to raise the PropertyChanged event for that property.
         /// </summary>
-        /// <typeparam name="T">The type of the property being set.</typeparam>
+        /// <typeparam name="TProperty">The type of the property being set.</typeparam>
         /// <param name="propertyName">The name of the property being changed.</param>
         /// <param name="backingStore">A set of Get/Set accessors for the property's backing store.</param>
         /// <param name="newValue">The new value to assign the property, if different.</param>
         /// <param name="onChangedCallback">The callback to execute (aside from the property-
         /// change notification delegate) if the new value is assigned, providing the
         /// old value and new value as arguments, in that order.</param>
-        private void SetPropertyAndRaiseEvents<T>(string propertyName, Accessor<T> backingStore, T newValue, Action<T, T> onChangedCallback = null)
+        private void SetPropertyAndRaiseEvents<TProperty>(string propertyName, Accessor<TProperty> backingStore, TProperty newValue, PropertyChangedCallback<TProperty> onChangedCallback = null)
         {
-            if (!EqualityComparer<T>.Default.Equals(backingStore.Value, newValue))
+            if (!EqualityComparer<TProperty>.Default.Equals(backingStore.Value, newValue))
             {
                 //Store the old value for the callback
-                T oldValue = backingStore.Value;
+                TProperty oldValue = backingStore.Value;
                 backingStore.Value = newValue;
 
                 //Execute the callback, if one was provided
