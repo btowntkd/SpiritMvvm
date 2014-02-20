@@ -69,6 +69,7 @@
     <Compile Include="Utils\AccessorTest.cs" />
     <Compile Include="PropertyListenerTest.cs" />
     <Compile Include="RelayCommandTest.cs" />
+    <Compile Include="Utils\ExpressionExtensionsTest.cs" />
     <Compile Include="Utils\StringWrapperTest.cs" />
     <Compile Include="ValidatableObjectTest.cs" />
     <Compile Include="ViewModels\SelectionViewModelTest.cs" />
