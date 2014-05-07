@@ -77,12 +77,12 @@ namespace SpiritMVVM.Utils
         /// </summary>
         public T Value
         {
-            get { return Accessor.Getter(); }
+            get { return Accessor.Value; }
             set
             {
-                if (!EqualityComparer<T>.Default.Equals(Accessor.Getter(), value))
+                if (!EqualityComparer<T>.Default.Equals(Accessor.Value, value))
                 {
-                    Accessor.Setter(value);
+                    Accessor.Value = value;
                     ResetString();
                 }
             }
