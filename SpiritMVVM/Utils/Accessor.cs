@@ -17,8 +17,8 @@ namespace SpiritMVVM.Utils
         /// Create a new instance of the <see cref="Accessor{T}"/> object,
         /// with the given 'parent' host of the property, and the given <see cref="PropertyInfo"/> object.
         /// </summary>
-        /// <param name="parent"></param>
-        /// <param name="propInfo"></param>
+        /// <param name="parent">The object in which the 'target' property is contained.</param>
+        /// <param name="propInfo">The PropertyInfo object describing the target property.</param>
         public Accessor(object parent, PropertyInfo propInfo)
         {
             if (parent == null)
