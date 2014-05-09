@@ -60,5 +60,15 @@ namespace SpiritMVVM.Utils
         }
 
         #endregion Public Properties
+
+        /// <summary>
+        /// Implicit conversion into the wrapped type.
+        /// </summary>
+        /// <param name="accessor">The accessor which wraps an underlying value.</param>
+        /// <returns>Returns the underlying value.</returns>
+        public static implicit operator T(Accessor<T> accessor)
+        {
+            return accessor.Value;
+        }
     }
 }
